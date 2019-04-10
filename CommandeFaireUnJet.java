@@ -32,7 +32,7 @@ public class CommandeFaireUnJet implements Commande {
 					System.out.println("Vous devez donner un entier.");
 				}
 			} while ( nbr_faces == null);
-			resultat_lancer = this.nbAlea.nextInt(jeu.PRISE_MAX) + 1;
+			resultat_lancer = this.nbAlea.nextInt(nbr_faces) + 1;
 			resultat = resultat + resultat_lancer;
 			System.out.println("Resultat du lancer : " + resultat_lancer);
 			System.out.println("Resultat total : " + resultat);
