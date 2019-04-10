@@ -7,6 +7,7 @@ import java.util.List;
 public class JeuCthulhu implements Jeu {
 
 	private List<Stat> stats;
+	
 
 	/*
 	 * Création du sytême de jeu issu du JDR Cthulhu
@@ -24,6 +25,7 @@ public class JeuCthulhu implements Jeu {
 		this.stats.add(new Stat("MVT",0));
 		
 	}
+	
 	
 	@Override
 	public List<Stat> getStats() {
