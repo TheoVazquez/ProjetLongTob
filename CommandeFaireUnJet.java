@@ -52,7 +52,7 @@ public class CommandeFaireUnJet implements Commande {
 	@Override
 	public boolean estExecutable() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 }
