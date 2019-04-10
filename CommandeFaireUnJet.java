@@ -25,7 +25,7 @@ public class CommandeFaireUnJet implements Commande {
 			Integer nbr_faces = null;
 			Integer resultat_lancer;
 			do {
-				System.out.println("Combien de dés souhaitez-vous lancer ? ");
+				System.out.println("Combien de faces souhaitez-vous lancer ? ");
 				try {
 					nbr_faces = Integer.parseInt(this.sc.nextLine());
 				} catch(NumberFormatException e) {
