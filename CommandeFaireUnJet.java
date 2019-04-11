@@ -1,4 +1,5 @@
 import java.util.Random;
+import java.util.Scanner;
 
 public class CommandeFaireUnJet implements Commande {
 
@@ -7,9 +8,6 @@ public class CommandeFaireUnJet implements Commande {
 
 	@Override
 	public void executer() {
-		// TODO Auto-generated method stub
-
-
 		Integer resultat = 0;
 		Integer nbr_de = null;
 		do {
@@ -40,7 +38,7 @@ public class CommandeFaireUnJet implements Commande {
 
 		Integer modificateur = null;
 		do {
-			System.out.println("Souhaitez vous ajouter un modificateur de résultat ? (tapez  si vous ne voulez pas en appliquer)");
+			System.out.println("Souhaitez vous ajouter un modificateur de résultat ? (tapez 0 si vous ne voulez pas en appliquer)");
 			try {
 				modificateur = Integer.parseInt(this.sc.nextLine());
 			} catch(NumberFormatException e) {
@@ -53,7 +51,7 @@ public class CommandeFaireUnJet implements Commande {
 
 	@Override
 	public boolean estExecutable() {
-		// TODO Auto-generated method stub
+		//Toujours executable
 		return true;
 	}
 

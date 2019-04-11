@@ -12,6 +12,7 @@ public class JeuCthulhu implements Jeu {
 	/*
 	 * Création du sytême de jeu issu du JDR Cthulhu
 	 */
+
 	JeuCthulhu(){
 		this.stats = new ArrayList<Stat>();
 		this.stats.add(new Stat("FOR",0));

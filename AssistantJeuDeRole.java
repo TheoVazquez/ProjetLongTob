@@ -11,9 +11,14 @@ public class AssistantJeuDeRole {
 		this.jeuCharge = jeu;
 		this.scenarioCharge = scenario;
 		
+		
+		//Création du menu EditerScenario
+		Menu menuEditionScenario = new Menu("Editer scénario");
+		menuEditionScenario.ajouter("Créer/Editer un lieu", new CommandeEditerLieu());
+		menuEditionScenario.ajouter("Créer/Editer un personnage", new CommandeEditerPersonnage());
 		//Création du menu principal
 		this.menuPrincipal = new Menu("Menu principal");
-		menuPrincipal.ajouter("Edite le scenario", new CommandeEditerScenario(scenarioCharge));
+		menuPrincipal.ajouter("Edite le scenario", menuEditionScenario);
 		menuPrincipal.ajouter("Jouer le scenario", new CommandeJouerScenario(scenarioCharge));
 		menuPrincipal.ajouter("Faire un jet", new CommandeFaireUnJet());
 	}
