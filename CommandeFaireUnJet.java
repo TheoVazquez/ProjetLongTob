@@ -47,6 +47,18 @@ public class CommandeFaireUnJet implements Commande {
 		} while ( modificateur == null);
 		resultat = resultat + modificateur;
 		System.out.println("Resultat total : " + resultat);
+		
+		Integer multiplicateur = null;
+		do {
+			System.out.println("Souhaitez vous ajouter un multiplicateur au résultat ? (tapez 1 si vous ne voulez pas en appliquer)");
+			try {
+				multiplicateur = Integer.parseInt(this.sc.nextLine());
+			} catch(NumberFormatException e) {
+				System.out.println("Vous devez donner un entier.");
+			}
+		} while ( multiplicateur == null);
+		resultat = resultat * multiplicateur;
+		System.out.println("Resultat total : " + resultat);
 	}
 
 	@Override
