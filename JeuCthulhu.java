@@ -7,6 +7,7 @@ import java.util.List;
 public class JeuCthulhu implements Jeu {
 
 	private List<Stat> stats;
+	private List<Competence> competences;
 	
 
 	/*
@@ -31,5 +32,10 @@ public class JeuCthulhu implements Jeu {
 	@Override
 	public List<Stat> getStats() {
 		return this.stats;
+	}
+	
+	@Override
+	public List<Competence> getCompetences() {
+		return this.competences;
 	}
 }
