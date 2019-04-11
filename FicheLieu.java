@@ -3,23 +3,23 @@ import java.util.Scanner;
 
 public class FicheLieu implements Fiche {
 	
-    private String NomDuLieu ;
+    private String titreFiche ;
     
-    private String DescriptionDuLieu;
+    private ArrayList<ComposantFicheLieu> composants;
 
     private ArrayList<FichePersonnage> listePersonnagesDuLieu = new ArrayList<FichePersonnage>();
 
     
     
-    public FicheLieu(String nom) {
+    public FicheLieu(String titre) {
     	
-    	NomDuLieu = nom;
+    	titreFiche = titre;
     	
     }
     
     
-    public String getNomLieu() {	
-    	return NomDuLieu;
+    public String getTitreFiche() {	
+    	return this.titreFiche;
     }
     
     
@@ -38,10 +38,12 @@ public class FicheLieu implements Fiche {
 
 	@Override
 	public void afficher() {
-		System.out.println("Nom du Lieu : " + NomDuLieu);
-		System.out.print("");
-		System.out.println("Description du Lieu : " + DescriptionDuLieu);
-		System.out.print("");
+		
+		System.out.println(this.titreFiche + " : ");
+		//On affiche chacun des composants
+		for(int i=0; i <= this.composants.size() ; i++) {
+			composants.get(i).afficher();
+		}
 		
 		System.out.println("Liste des personnages associés au lieu : ");
 		System.out.print("");
@@ -56,25 +58,37 @@ public class FicheLieu implements Fiche {
 
 	@Override
 	public void editer() {
-		
-		Scanner sc = new Scanner(System.in);
+		int selection;
 		
 		System.out.println("Que voulez vous modifier ? ");
-		System.out.println("1 = Nom");
-		System.out.println("2 = Description");
-		
-		if (sc.next() == "1") {
-			
-			System.out.println("Entrez votre Nom : ");
-			NomDuLieu = sc.next();
-			
+		for(int i=1; i<= this.composants.size()+1;i++) {
+			this.composants.get(i-1).afficher(i-1);
 		}
-		
-		else if (sc.next() == "2") {
+		System.out.println("Votre choix :");
+		boolean choixValide;
+		do {
+			Scanner sc = new Scanner(System.in);
+			System.out.println("Votre choix :");
+			selection = sc.nextInt();
+			choixValide = 0 <= selection && selection <= this.composants.size();
+			if(!choixValide) {
+				System.out.println("Choix invalide !");
+			}
 			
-			System.out.println("Entrez votre Description : ");
-			DescriptionDuLieu = sc.next();
-			
+		} while (!choixValide);
+		System.out.println("Modification de : "+ this.composants.get(selection));
+		System.out.println("Veuillez saisir la modification");
+		Scanner sc = new Scanner(System.in);
+		String modification = sc.next();
+		System.out.println("Votre modification : "+ modification);
+		System.out.println("Valider ? 0 : non / 1 : oui");
+		int valider = sc.nextInt();
+		if (valider == 1) {
+			this.composants.get(selection).setContenu(modification);
+			System.out.println("Modification annulée");
+		}
+		else {
+			System.out.println("Annulation de la modification");
 		}
 		
 		
