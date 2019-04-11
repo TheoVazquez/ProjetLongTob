@@ -11,6 +11,10 @@ public class Scenario {
 		
 	}
 	
+	public void ajouterPersonnage(FichePersonnage nouveauPersonnage) {
+		listePersonnages.add(nouveauPersonnage);
+	}
+	
 	public ArrayList<FicheLieu> getListeLieux() {
 		
 		return listeLieux;

@@ -7,13 +7,21 @@ public class FichePersonnage implements Fiche {
 	private List<Stat> stats;
 	private List<Competence> competences;
 	
-
-	public FichePersonnage (Jeu jeu, String titre){
+	public FichePersonnage (String nom) {
+		this.nom = nom;
+	}
+	
+	public FichePersonnage (String nom, String prenom) {
+		this.nom = nom;
+		this.prenom = prenom;
+	}
+	
+	public FichePersonnage (Jeu jeu, String nom, String Prenom){
 		this.nom = nom;
 		this.prenom = prenom;
 		stats = jeu.getStats();
 		competences = jeu.getCompetences();
-	}
+	}	
 	
 	public void setNom(String nom) {
 		this.nom = nom;
@@ -102,7 +110,7 @@ public class FichePersonnage implements Fiche {
 		Scanner sc = new Scanner(System.in);
 		int choix = sc.nextInt();
 		System.out.println("Veuillez saisir la modification");
-		Scanner sc = new Scanner(System.in);
+		sc = new Scanner(System.in);
 		String modification = sc.next();
 		System.out.println("Votre modification : "+ modification);
 		System.out.println("Valider ? 0 : non / 1 : oui");
