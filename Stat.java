@@ -7,4 +7,8 @@ public class Stat {
 		this.nom = nom;
 		this.valeur = valeur;
 	}
+	
+	public void afficher(){
+		System.out.print(this.nom + " : " + this.valeur);		
+	}
 }
