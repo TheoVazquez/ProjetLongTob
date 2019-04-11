@@ -10,4 +10,5 @@ public interface Jeu {
 	 * Retourne les stats de bases du jeu
 	 */
 	List<Stat> getStats();
+	List<Competence> getCompetences();
 }

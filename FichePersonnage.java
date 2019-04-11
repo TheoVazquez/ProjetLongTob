@@ -2,15 +2,20 @@ import java.util.List;
 
 public class FichePersonnage implements Fiche {
 	private String nom;
+	private String prenom;
 	private List<Stat> stats;
+	private List<Competence> competences;
 
-	public FichePersonnage (Jeu jeu, String nom){
+	public FichePersonnage (Jeu jeu, String name, String firstName){
 		stats = jeu.getStats();
-		this.nom = nom;
+		competences = jeu.getCompetences();
+		nom = name;
+		prenom = firstName;
 	}
 
 	@Override
 	public void afficher() {
+		
 		for (int i = 0; i <= stats.size(); i++){
 			stats.get(i).afficher();
 		}

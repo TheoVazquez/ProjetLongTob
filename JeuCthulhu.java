@@ -8,6 +8,7 @@ public class JeuCthulhu implements Jeu {
 
 	
 	private List<Stat> stats;
+	private List<Competence> competences;
 	
 	private List<ComposantFicheLieu> contenuFicheLieu;
 
@@ -40,5 +41,10 @@ public class JeuCthulhu implements Jeu {
 	@Override
 	public List<Stat> getStats() {
 		return this.stats;
+	}
+	
+	@Override
+	public List<Competence> getCompetences() {
+		return this.competences;
 	}
 }
