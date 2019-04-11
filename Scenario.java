@@ -2,13 +2,9 @@ import java.util.ArrayList;
 
 public class Scenario {
 	
-	private ArrayList<FicheLieu> listeLieux;
-	private ArrayList<FichePersonnage> listePersonnages;
+	private ArrayList<FicheLieu> listeLieux = new ArrayList<FicheLieu>();
+	private ArrayList<FichePersonnage> listePersonnages = new ArrayList<FichePersonnage>();
 	
-	public Scenario() {
-		this.listeLieux = new ArrayList<FicheLieu>();
-		this.listePersonnages = new ArrayList<FichePersonnage>();
-	}
 	public void ajouterLieu(FicheLieu nouveauLieu) {
 		
 		listeLieux.add(nouveauLieu);

@@ -16,9 +16,11 @@ public class CommandeEditerLieu implements Commande {
 		
 			
 		System.out.println("Entrer le nom de la fiche a créer ou modifier : ");
-			
+		System.out.println("Fiches disponibles : ");
 		String nomFiche = sc.next();
-		if(this.scenario.getListeLieux() != null) {
+		for (int i = 0; i < scenario.getListeLieux().size();i++) {
+			System.out.println(scenario.getListeLieux().get(i).getTitreFiche());
+		}
 		for (int i = 0; i < scenario.getListeLieux().size();i++) {
 				
 			if (scenario.getListeLieux().get(i).getTitreFiche() == nomFiche) {
@@ -28,10 +30,11 @@ public class CommandeEditerLieu implements Commande {
 					
 				}
 			}
-		}
 		System.out.println("la fiche n'existe pas creation de cette dernière...");
 		FicheLieu nouvelleFiche = new FicheLieu(nomFiche);
-	    scenario.ajouterLieu(nouvelleFiche);
+		
+	    this.scenario.ajouterLieu(nouvelleFiche);
+	    
 		return;
 
 	}
