@@ -8,8 +8,7 @@ public class JeuCthulhu implements Jeu {
 
 	
 	private List<Stat> stats;
-	private List<Competence> competences;
-	
+	private List<Competence> competences;	
 	private List<ComposantFicheLieu> contenuFicheLieu;
 
 	/*
