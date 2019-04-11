@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.Scanner;
 
 public class FichePersonnage implements Fiche {
 	private String nom;
@@ -68,7 +69,63 @@ public class FichePersonnage implements Fiche {
 
 	@Override
 	public void editer() {
-		// TODO Auto-generated method stub
+		int selection;
+		
+		System.out.println("Que voulez vous modifier ? ");
+		for(int i=1; i<= this.stats.size()+1; i++) {
+			System.out.print("" + i + "--");
+			this.stats.get(i-1).afficher();
+		}
+		for(int i=stats.size()+1; i<= this.competences.size()+stats.size()+1; i++) {
+			System.out.print("" + i + "--");
+			this.competences.get(i-1).afficher();
+		}
+		System.out.println("Votre choix :");
+		boolean choixValide;
+		do {
+			Scanner sc = new Scanner(System.in);
+			System.out.println("Votre choix :");
+			selection = sc.nextInt();
+			choixValide = 0 <= selection && selection <= (this.stats.size() + this.competences.size());
+			if(!choixValide) {
+				System.out.println("Choix invalide !");
+			}
+			
+		} while (!choixValide);
+		if (selection <= this.stats.size()) {
+			System.out.println("Modification de : "+ this.stats.get(selection));
+		} else {
+			System.out.println("Modification de : "+ this.competences.get(selection - this.stats.size()));
+		}
+		System.out.println("que voulez-vous modifier?");
+		System.out.print("1-- Le nom\n 2-- La Valeur");
+		Scanner sc = new Scanner(System.in);
+		int choix = sc.nextInt();
+		System.out.println("Veuillez saisir la modification");
+		Scanner sc = new Scanner(System.in);
+		String modification = sc.next();
+		System.out.println("Votre modification : "+ modification);
+		System.out.println("Valider ? 0 : non / 1 : oui");
+		int valider = sc.nextInt();
+		if (choix == 1) {
+				if (valider == 1) {
+					if (selection <= this.stats.size()) {
+						this.stats.get(selection).setNom(modification);
+					} else {
+						this.competences.get(selection - stats.size()).setNom(modification);
+					}
+				} else {
+					if (selection <= this.stats.size()) {
+						this.stats.get(selection).setValeur(Integer.parseInt(modification));
+					} else {
+						this.competences.get(selection - stats.size()).setValeur(Integer.parseInt(modification));
+					}					
+				}
+			System.out.println("Modification réalisée");
+		}
+		else {
+			System.out.println("Annulation de la modification");
+		}
 		
 	}
 

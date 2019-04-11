@@ -8,6 +8,22 @@ public class Stat {
 		this.valeur = valeur;
 	}
 	
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+	
+	public void setValeur(int valeur) {
+		this.valeur = valeur;
+	}
+	
+	public String getNom() {
+		return nom;
+	}
+	
+	public int getValeur() {
+		return valeur;
+	}
+	
 	public void afficher(){
 		System.out.print(this.nom + " : " + this.valeur);		
 	}
