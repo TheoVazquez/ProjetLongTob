@@ -1,3 +1,8 @@
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Scanner;
 
@@ -157,12 +162,20 @@ public class FichePersonnage implements Fiche {
 	public FichePersonnage charger(String nomFichier) {
 
 		try{
+			FichePersonnage personnage;
 			InputStream flux=new FileInputStream("test.txt"); 
 			InputStreamReader lecture=new InputStreamReader(flux);
 			BufferedReader buff=new BufferedReader(lecture);
-			String ligne;
+			String ligne = buff.readLine();
 			while ((ligne=buff.readLine())!=null){
-				System.out.println(ligne);
+				String[] parts = ligne.split(":");
+				String identifiant = parts[0];
+				String valeur = parts[1];
+				if (identifiant == "Nom ") {
+					personnage.setNom(identifiant);
+				} else if (identifiant == "Prénom ") {
+					personnage.setPrenom(identifiant);
+				} else if (identifiant == )
 			}
 			buff.close(); 
 		} catch (Exception e){
