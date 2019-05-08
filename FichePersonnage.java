@@ -136,5 +136,22 @@ public class FichePersonnage implements Fiche {
 		}
 		
 	}
+	
+	public void sauvegarder() {
+		
+		PrintWriter writer = new PrintWriter("Fiche_" + this.nom + "_" + this.prenom + ".txt", UTF-8);
+		writer.println("Fiche personnage");
+		writer.println("Nom : " + this.nom);
+		writer.println("Prénom : " + this.prenom);
+		for(int i=1; i<= this.stats.size()+1; i++) { {
+			writer.print(this.stats.get(i-1).getNom() + " : ");
+			writer.println(this.stats.get(i-1).getValeur());
+		}
+		for(int i=1; i<= this.competences.size()+1; i++) { {
+			writer.print(this.competences.get(i-1).getNom() + " : ");
+			writer.println(this.competences.get(i-1).getValeur());
+		}
+								  
+	}
 
 }
