@@ -146,36 +146,51 @@ public class FichePersonnage implements Fiche {
 		
 		PrintWriter writer = new PrintWriter("Fiche_" + this.nom + "_" + this.prenom + ".txt", UTF-8);
 		writer.println("Fiche personnage");
-		writer.println("Nom : " + this.nom);
-		writer.println("Prénom : " + this.prenom);
-		for(int i=1; i<= this.stats.size()+1; i++) { {
-			writer.print(this.stats.get(i-1).getNom() + " : ");
+		writer.println("Nom:" + this.nom);
+		writer.println("Prénom:" + this.prenom);
+		writer.println("Statistiques");
+		for(int i=1; i<= this.stats.size()+1; i++) {
+			writer.print(this.stats.get(i-1).getNom() + ":");
 			writer.println(this.stats.get(i-1).getValeur());
 		}
-		for(int i=1; i<= this.competences.size()+1; i++) { {
-			writer.print(this.competences.get(i-1).getNom() + " : ");
+		writer.println("Compétences");
+		for(int i=1; i<= this.competences.size()+1; i++) {
+			writer.print(this.competences.get(i-1).getNom() + ":");
 			writer.println(this.competences.get(i-1).getValeur());
 		}
 								  
 	}
 	
 	public FichePersonnage charger(String nomFichier) {
-
 		try{
-			FichePersonnage personnage;
+			FichePersonnage personnage ;
 			InputStream flux=new FileInputStream("test.txt"); 
 			InputStreamReader lecture=new InputStreamReader(flux);
 			BufferedReader buff=new BufferedReader(lecture);
 			String ligne = buff.readLine();
-			while ((ligne=buff.readLine())!=null){
+			while ((ligne=buff.readLine()) != "Statistiques") {
 				String[] parts = ligne.split(":");
 				String identifiant = parts[0];
 				String valeur = parts[1];
-				if (identifiant == "Nom ") {
-					personnage.setNom(identifiant);
-				} else if (identifiant == "Prénom ") {
-					personnage.setPrenom(identifiant);
-				} else if (identifiant == )
+				if (identifiant == "Nom") {
+					personnage = new FichePersonnage(identifiant);
+				} else if (identifiant == "Prénom") {
+					personnage.setPrenom(identifiant);					
+				}
+			}
+			while ((ligne=buff.readLine()) != "Compétences") {
+				String[] parts = ligne.split(":");
+				String nomStat = parts[0];
+				int valeur = Integer.parseInt(parts[1]);
+				Stat stat = new Stat(nomStat,valeur);
+				personnage.ajouterStat(stat);
+			}
+			while ((ligne=buff.readLine()) != null) {
+				String[] parts = ligne.split(":");
+				String nomCompetence = parts[0];
+				int valeur = Integer.parseInt(parts[1]);
+				Competence competence = new Competence(nomCompetence,valeur);
+				personnage.ajouterCompetence(competence);
 			}
 			buff.close(); 
 		} catch (Exception e){
