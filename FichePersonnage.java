@@ -153,5 +153,22 @@ public class FichePersonnage implements Fiche {
 		}
 								  
 	}
+	
+	public FichePersonnage charger(String nomFichier) {
+
+		try{
+			InputStream flux=new FileInputStream("test.txt"); 
+			InputStreamReader lecture=new InputStreamReader(flux);
+			BufferedReader buff=new BufferedReader(lecture);
+			String ligne;
+			while ((ligne=buff.readLine())!=null){
+				System.out.println(ligne);
+			}
+			buff.close(); 
+		} catch (Exception e){
+			System.out.println(e.toString());
+		}
+		return null;
+	}
 
 }
