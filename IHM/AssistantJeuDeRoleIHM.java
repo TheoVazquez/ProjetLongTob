@@ -182,7 +182,7 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 			this.panelAffichage.add(this.grilleAffichage);
 			this.fenetre.add(this.panelAffichage,BorderLayout.EAST);
 			
-			this.fenetre.pack();
+			this.fenetre.setSize(new Dimension (800,600));
 			
 		}
 		
