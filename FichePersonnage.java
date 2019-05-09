@@ -99,13 +99,17 @@ public class FichePersonnage implements Fiche {
 		int selection;
 		
 		System.out.println("Que voulez vous modifier ? ");
+		if (this.stats != null) {
 		for(int i=1; i<= this.stats.size()+1; i++) {
 			System.out.print("" + i + "--");
 			this.stats.get(i-1).afficher();
 		}
+		}
+		if(this.competences != null) {
 		for(int i=stats.size()+1; i<= this.competences.size()+stats.size()+1; i++) {
 			System.out.print("" + i + "--");
 			this.competences.get(i-1).afficher();
+		}
 		}
 		System.out.println("Votre choix :");
 		boolean choixValide;
