@@ -31,7 +31,8 @@ public class CommandeEditerPersonnage implements Commande {
 		FichePersonnage nouvelleFiche = new FichePersonnage(nomPerso);
 		
 	    this.scenario.ajouterPersonnage(nouvelleFiche);
-	    
+	  //sauvegarde de la fiche vierge
+	    nouvelleFiche.sauvegarder();
 		return;
 	}
 
