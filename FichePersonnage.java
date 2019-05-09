@@ -1,8 +1,10 @@
 import java.io.BufferedReader;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -144,29 +146,38 @@ public class FichePersonnage implements Fiche {
 	
 	public void sauvegarder() {
 		
-		PrintWriter writer = new PrintWriter("Fiche_" + this.nom + "_" + this.prenom + ".txt", UTF-8);
+		PrintWriter writer;
+		try {
+			writer = new PrintWriter("Fiche_" + this.nom + "_" + this.prenom + ".txt", "UTF-8");
+
 		writer.println("Fiche personnage");
 		writer.println("Nom:" + this.nom);
 		writer.println("Prénom:" + this.prenom);
 		writer.println("Statistiques");
-		if (this.stats =! NULL) { 
+		if (this.stats != null) { 
 			for(int i=1; i<= this.stats.size()+1; i++) {
 				writer.print(this.stats.get(i-1).getNom() + ":");
 				writer.println(this.stats.get(i-1).getValeur());
 			}
 		}
 		writer.println("Compétences");
-		if (this.competences =! NULL) {
+		if (this.competences != null) {
 			for(int i=1; i<= this.competences.size()+1; i++) {
 				writer.print(this.competences.get(i-1).getNom() + ":");
 				writer.println(this.competences.get(i-1).getValeur());
 			}
 		}					  
+	}		
+	catch (FileNotFoundException e) {
+		System.out.println("Fichier non trouv�");
+	} catch (UnsupportedEncodingException e) {
+		System.out.println("Erreur d'encodage");
+	}
 	}
 	
 	public FichePersonnage charger(String nomFichier) {
 		try{
-			FichePersonnage personnage ;
+			FichePersonnage personnage = null ;
 			InputStream flux=new FileInputStream("test.txt"); 
 			InputStreamReader lecture=new InputStreamReader(flux);
 			BufferedReader buff=new BufferedReader(lecture);
