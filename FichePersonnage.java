@@ -85,7 +85,7 @@ public class FichePersonnage implements Fiche {
 	@Override
 	public void afficher() {
 		System.out.println("Nom du personnage : " + nom);
-		System.out.println("Prénom du personnage : " + prenom);
+		System.out.println("PrÃ©nom du personnage : " + prenom);
 		for (int i = 0; i <= stats.size(); i++){
 			stats.get(i).afficher();
 		}
@@ -148,7 +148,7 @@ public class FichePersonnage implements Fiche {
 						this.competences.get(selection - stats.size()).setValeur(Integer.parseInt(modification));
 					}					
 				}
-			System.out.println("Modification réalisée");
+			System.out.println("Modification rÃ©alisÃ©e");
 		}
 		else {
 			System.out.println("Annulation de la modification");
@@ -160,11 +160,12 @@ public class FichePersonnage implements Fiche {
 		
 		PrintWriter writer;
 		try {
-			writer = new PrintWriter("Fiche_" + this.nom + "_" + this.prenom + ".txt", "UTF-8");
+			writer = new PrintWriter(this.nomFiche + ".txt", "UTF-8");
 
 		writer.println("Fiche personnage");
+		writer.println("Fiche : " + this.nomFiche);
 		writer.println("Nom:" + this.nom);
-		writer.println("Prénom:" + this.prenom);
+		writer.println("PrÃ©nom:" + this.prenom);
 		writer.println("Statistiques");
 		if (this.stats != null) { 
 			for(int i=1; i<= this.stats.size()+1; i++) {
@@ -172,7 +173,7 @@ public class FichePersonnage implements Fiche {
 				writer.println(this.stats.get(i-1).getValeur());
 			}
 		}
-		writer.println("Compétences");
+		writer.println("CompÃ©tences");
 		if (this.competences != null) {
 			for(int i=1; i<= this.competences.size()+1; i++) {
 				writer.print(this.competences.get(i-1).getNom() + ":");
@@ -181,7 +182,7 @@ public class FichePersonnage implements Fiche {
 		}					  
 	}		
 	catch (FileNotFoundException e) {
-		System.out.println("Fichier non trouv�");
+		System.out.println("Fichier non trouvé");
 	} catch (UnsupportedEncodingException e) {
 		System.out.println("Erreur d'encodage");
 	}
@@ -200,11 +201,11 @@ public class FichePersonnage implements Fiche {
 				String valeur = parts[1];
 				if (identifiant == "Nom") {
 					personnage = new FichePersonnage(identifiant);
-				} else if (identifiant == "Prénom") {
+				} else if (identifiant == "PrÃ©nom") {
 					personnage.setPrenom(identifiant);					
 				}
 			}
-			while ((ligne=buff.readLine()) != "Compétences") {
+			while ((ligne=buff.readLine()) != "CompÃ©tences") {
 				String[] parts = ligne.split(":");
 				String nomStat = parts[0];
 				int valeur = Integer.parseInt(parts[1]);
