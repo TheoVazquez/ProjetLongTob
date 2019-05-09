@@ -9,6 +9,7 @@ public class Scenario {
 	public Scenario(String nom, Jeu jeu) {
 		this.nom = nom;
 		this.listeFiche.add(new FichePersonnage("Fiche vierge", jeu));
+		this.jeu = jeu;
 	}
 	
 	public String getNom() {
