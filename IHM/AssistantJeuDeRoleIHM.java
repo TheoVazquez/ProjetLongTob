@@ -131,7 +131,7 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 			this.menuBar.add(this.menuFiche);
 			fenetre.setJMenuBar(this.menuBar);
 			
-			fenetre.pack();
+			this.fenetre.setSize(new Dimension (800,600));
 			fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			fenetre.setVisible(true);
 		}
