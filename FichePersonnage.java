@@ -210,7 +210,7 @@ public class FichePersonnage implements Fiche {
 		} catch (Exception e){
 			System.out.println(e.toString());
 		}
-		return null;
+		return personnage;
 	}
 
 }
