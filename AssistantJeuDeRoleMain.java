@@ -5,10 +5,10 @@ public class AssistantJeuDeRoleMain {
 		System.out.println("Bienvenue sur la démonstration de notre assistant de JDR");
 		System.out.println("Dans cette version, le jeu et le scénario seront préchargés");
 		Jeu jeu = new JeuCthulhu();
-		Scenario scenario = new Scenario();
-		AssistantJeuDeRole assistant = new AssistantJeuDeRole(jeu, scenario);
-		assistant.utiliser();
-		
+		Scenario scenario = new Scenario("Mon sc�nario");
+		//AssistantJeuDeRole assistant = new AssistantJeuDeRole(jeu, scenario);
+		//assistant.utiliser();
+		AssistantJeuDeRoleIHM assistant = new AssistantJeuDeRoleIHM(jeu, scenario);
 	}
 
 }

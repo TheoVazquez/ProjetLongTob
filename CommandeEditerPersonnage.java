@@ -3,9 +3,11 @@ import java.util.Scanner;
 public class CommandeEditerPersonnage implements Commande {
 	
 	private Scenario scenario;
+	private Jeu jeu;
 	
-	public CommandeEditerPersonnage(Scenario scenario){
+	public CommandeEditerPersonnage(Scenario scenario, Jeu jeu){
 		this.scenario = scenario;
+		this.jeu = jeu;
 	}
 	
 	@Override
@@ -17,10 +19,10 @@ public class CommandeEditerPersonnage implements Commande {
 		for (int i = 0; i < scenario.getListePersonnage().size();i++) {
 			System.out.println(scenario.getListePersonnage().get(i).getNomFiche());
 		}
-		String nomPerso = sc.next();
+		String nomFiche = sc.next();
 		for (int i = 0; i < scenario.getListePersonnage().size();i++) {
 				
-			if (scenario.getListePersonnage().get(i).getNomFiche().equals(nomPerso)) {
+			if (scenario.getListePersonnage().get(i).getNomFiche().equals(nomFiche)) {
 				System.out.println("Edition de " + scenario.getListePersonnage().get(i).getNomFiche() + " : ");
 				scenario.getListePersonnage().get(i).editer();
 				return;
@@ -28,13 +30,13 @@ public class CommandeEditerPersonnage implements Commande {
 				}
 			}
 		System.out.println("le personnage n'existe pas, crÃ©ation de ce dernier...");
-		FichePersonnage nouvelleFiche = new FichePersonnage(nomPerso);
-		
+		FichePersonnage nouvelleFiche = new FichePersonnage(nomFiche, this.jeu);
+		nouvelleFiche.editer();
 	    this.scenario.ajouterPersonnage(nouvelleFiche);
 	    System.out.println("Fiche ajoutée");
 	    
 	  //sauvegarde de la fiche vierge
-	    nouvelleFiche.sauvegarder();
+	   // nouvelleFiche.sauvegarder();
 		return;
 	}
 

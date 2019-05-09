@@ -19,20 +19,11 @@ public class FichePersonnage implements Fiche {
 		
 	}
 	
-	public FichePersonnage (String nomFiche) {
+	
+	public FichePersonnage (String nomFiche, Jeu jeu){
 		this.nomFiche = nomFiche;
-	}
-	
-	public FichePersonnage (String nom, String prenom) {
-		this.nom = nom;
-		this.prenom = prenom;
-	}
-	
-	public FichePersonnage (Jeu jeu, String nom, String Prenom){
-		this.nom = nom;
-		this.prenom = prenom;
-		stats = jeu.getStats();
-		competences = jeu.getCompetences();
+		this.stats = jeu.getStats();
+		this.competences = jeu.getCompetences();
 	}	
 	
 	public String getNomFiche() {
@@ -86,77 +77,30 @@ public class FichePersonnage implements Fiche {
 	public void afficher() {
 		System.out.println("Nom du personnage : " + nom);
 		System.out.println("PrÃ©nom du personnage : " + prenom);
-		for (int i = 0; i <= stats.size(); i++){
+		if (stats != null ) {
+			
+			System.out.println("Statistiques : ");
+		for (int i = 0; i < stats.size(); i++){
 			stats.get(i).afficher();
+			System.out.println("");
 		}
-		for (int i = 0; i <= competences.size(); i++) {
+		}
+		if(competences != null ) {
+			System.out.println("Comp�tences : ");
+		for (int i = 0; i < competences.size(); i++) {
 			competences.get(i).afficher();
+			System.out.println("");
 		}		
+		}
 	}
 
 	@Override
-	public void editer() {
-		int selection;
-		
+	public void editer() {	
+		System.out.println("Votre fiche : ");
+		this.afficher();
 		System.out.println("Que voulez vous modifier ? ");
-		if (this.stats != null) {
-		for(int i=1; i<= this.stats.size()+1; i++) {
-			System.out.print("" + i + "--");
-			this.stats.get(i-1).afficher();
-		}
-		}
-		if(this.competences != null) {
-		for(int i=stats.size()+1; i<= this.competences.size()+stats.size()+1; i++) {
-			System.out.print("" + i + "--");
-			this.competences.get(i-1).afficher();
-		}
-		}
-		System.out.println("Votre choix :");
-		boolean choixValide;
-		do {
-			Scanner sc = new Scanner(System.in);
-			System.out.println("Votre choix :");
-			selection = sc.nextInt();
-			choixValide = 0 <= selection && selection <= (this.stats.size() + this.competences.size());
-			if(!choixValide) {
-				System.out.println("Choix invalide !");
-			}
-			
-		} while (!choixValide);
-		if (selection <= this.stats.size()) {
-			System.out.println("Modification de : "+ this.stats.get(selection));
-		} else {
-			System.out.println("Modification de : "+ this.competences.get(selection - this.stats.size()));
-		}
-		System.out.println("que voulez-vous modifier?");
-		System.out.print("1-- Le nom\n 2-- La Valeur");
-		Scanner sc = new Scanner(System.in);
-		int choix = sc.nextInt();
-		System.out.println("Veuillez saisir la modification");
-		sc = new Scanner(System.in);
-		String modification = sc.next();
-		System.out.println("Votre modification : "+ modification);
-		System.out.println("Valider ? 0 : non / 1 : oui");
-		int valider = sc.nextInt();
-		if (choix == 1) {
-				if (valider == 1) {
-					if (selection <= this.stats.size()) {
-						this.stats.get(selection).setNom(modification);
-					} else {
-						this.competences.get(selection - stats.size()).setNom(modification);
-					}
-				} else {
-					if (selection <= this.stats.size()) {
-						this.stats.get(selection).setValeur(Integer.parseInt(modification));
-					} else {
-						this.competences.get(selection - stats.size()).setValeur(Integer.parseInt(modification));
-					}					
-				}
-			System.out.println("Modification rÃ©alisÃ©e");
-		}
-		else {
-			System.out.println("Annulation de la modification");
-		}
+		
+
 		
 	}
 	
@@ -192,7 +136,7 @@ public class FichePersonnage implements Fiche {
 	}
 	}
 	
-	public FichePersonnage charger(String nomFichier) {
+	public FichePersonnage charger(String nomFichier, Jeu jeu) {
 		FichePersonnage personnage = new FichePersonnage();
 		try{
 			InputStream flux=new FileInputStream("test.txt"); 
@@ -204,7 +148,7 @@ public class FichePersonnage implements Fiche {
 				String identifiant = parts[0];
 				String valeur = parts[1];
 				if (identifiant == "Nom") {
-					personnage = new FichePersonnage(identifiant);
+					personnage = new FichePersonnage(identifiant, jeu);
 				} else if (identifiant == "PrÃ©nom") {
 					personnage.setPrenom(identifiant);					
 				}
@@ -231,4 +175,8 @@ public class FichePersonnage implements Fiche {
 		
 	}
 
+	@Override 
+	public String toString() {
+		return this.nomFiche;
+	}
 }

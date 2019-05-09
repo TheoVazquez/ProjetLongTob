@@ -1,3 +1,5 @@
+package IHM;
+
 
 public class AssistantJeuDeRoleMain {
 

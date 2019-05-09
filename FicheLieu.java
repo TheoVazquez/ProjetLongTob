@@ -14,7 +14,6 @@ public class FicheLieu implements Fiche {
     public FicheLieu(String titre) {
     	
     	titreFiche = titre;
-    	
     }
     
     
@@ -41,16 +40,20 @@ public class FicheLieu implements Fiche {
 		
 		System.out.println(this.titreFiche + " : ");
 		//On affiche chacun des composants
-		for(int i=0; i <= this.composants.size() ; i++) {
+		if(composants != null ) {
+		for(int i=0; i < this.composants.size() ; i++) {
 			composants.get(i).afficher();
+		}
 		}
 		
 		System.out.println("Liste des personnages associés au lieu : ");
 		System.out.print("");
-		for (int i = 0; i <= listePersonnagesDuLieu.size(); i++) {
+		if(listePersonnagesDuLieu != null ) {
+		for (int i = 0; i < listePersonnagesDuLieu.size(); i++) {
 			
 			listePersonnagesDuLieu.get(i).afficher();
 			
+		}
 		}
 		
 	}
@@ -58,42 +61,21 @@ public class FicheLieu implements Fiche {
 
 	@Override
 	public void editer() {
-		int selection;
-		
+		System.out.println("Votre fiche lieu : ");
+		this.afficher();
 		System.out.println("Que voulez vous modifier ? ");
-		for(int i=1; i<= this.composants.size()+1;i++) {
-			this.composants.get(i-1).afficher(i-1);
-		}
-		System.out.println("Votre choix :");
-		boolean choixValide;
-		do {
-			Scanner sc = new Scanner(System.in);
-			System.out.println("Votre choix :");
-			selection = sc.nextInt();
-			choixValide = 0 <= selection && selection <= this.composants.size();
-			if(!choixValide) {
-				System.out.println("Choix invalide !");
+		System.out.println("0)Ajouter un composant");
+		if (composants != null) {
+			for (int i = 0 ; i < composants.size() ; i++) {
+				System.out.println(i + ")" + this.composants.get(i).getNom());
 			}
-			
-		} while (!choixValide);
-		System.out.println("Modification de : "+ this.composants.get(selection));
-		System.out.println("Veuillez saisir la modification");
-		Scanner sc = new Scanner(System.in);
-		String modification = sc.next();
-		System.out.println("Votre modification : "+ modification);
-		System.out.println("Valider ? 0 : non / 1 : oui");
-		int valider = sc.nextInt();
-		if (valider == 1) {
-			this.composants.get(selection).setContenu(modification);
-			System.out.println("Modification annulée");
 		}
-		else {
-			System.out.println("Annulation de la modification");
-		}
-		
 		
 	}
     
-    
+    @Override
+    public String toString() {
+    	return this.titreFiche;
+    }
 
 }
