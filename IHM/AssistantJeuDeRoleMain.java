@@ -1,4 +1,4 @@
-
+package IHM;
 public class AssistantJeuDeRoleMain {
 
 	public static void main(String[] args) {

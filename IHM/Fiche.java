@@ -1,3 +1,4 @@
+package IHM;
 import java.util.HashMap;
 
 public interface Fiche {
