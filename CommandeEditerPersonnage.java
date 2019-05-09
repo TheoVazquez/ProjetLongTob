@@ -14,14 +14,14 @@ public class CommandeEditerPersonnage implements Commande {
 		
 		System.out.println("Entrer le nom de le personnage à créer ou modifier : ");
 		System.out.println("Personnages disponibles : ");
+		for (int i = 0; i < scenario.getListePersonnage().size();i++) {
+			System.out.println(scenario.getListePersonnage().get(i).getNomFiche());
+		}
 		String nomPerso = sc.next();
 		for (int i = 0; i < scenario.getListePersonnage().size();i++) {
-			System.out.println(scenario.getListePersonnage().get(i).getNom() + " " + scenario.getListePersonnage().get(i).getPrenom());
-		}
-		for (int i = 0; i < scenario.getListePersonnage().size();i++) {
 				
-			if (scenario.getListePersonnage().get(i).getNom() == nomPerso) {
-					
+			if (scenario.getListePersonnage().get(i).getNom().equals(nomPerso)) {
+				System.out.println("Edition de " + scenario.getListePersonnage().get(i).getNomFiche() + " : ");
 				scenario.getListePersonnage().get(i).editer();
 				return;
 					
@@ -31,6 +31,8 @@ public class CommandeEditerPersonnage implements Commande {
 		FichePersonnage nouvelleFiche = new FichePersonnage(nomPerso);
 		
 	    this.scenario.ajouterPersonnage(nouvelleFiche);
+	    System.out.println("Fiche ajout�e");
+	    
 	  //sauvegarde de la fiche vierge
 	    nouvelleFiche.sauvegarder();
 		return;

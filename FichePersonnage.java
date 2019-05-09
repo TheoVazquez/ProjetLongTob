@@ -9,13 +9,18 @@ import java.util.List;
 import java.util.Scanner;
 
 public class FichePersonnage implements Fiche {
+	private String nomFiche;
 	private String nom;
 	private String prenom;
 	private List<Stat> stats;
 	private List<Competence> competences;
 	
-	public FichePersonnage (String nom) {
-		this.nom = nom;
+	public FichePersonnage() {
+		
+	}
+	
+	public FichePersonnage (String nomFiche) {
+		this.nomFiche = nomFiche;
 	}
 	
 	public FichePersonnage (String nom, String prenom) {
@@ -30,6 +35,13 @@ public class FichePersonnage implements Fiche {
 		competences = jeu.getCompetences();
 	}	
 	
+	public String getNomFiche() {
+		return this.nomFiche;
+	}
+	
+	public void setNomFiche(String nom) {
+		this.nomFiche = nom;
+	}
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
@@ -176,8 +188,8 @@ public class FichePersonnage implements Fiche {
 	}
 	
 	public FichePersonnage charger(String nomFichier) {
+		FichePersonnage personnage = new FichePersonnage();
 		try{
-			FichePersonnage personnage = null ;
 			InputStream flux=new FileInputStream("test.txt"); 
 			InputStreamReader lecture=new InputStreamReader(flux);
 			BufferedReader buff=new BufferedReader(lecture);
@@ -211,6 +223,7 @@ public class FichePersonnage implements Fiche {
 			System.out.println(e.toString());
 		}
 		return personnage;
+		
 	}
 
 }
