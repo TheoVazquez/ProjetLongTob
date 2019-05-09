@@ -20,7 +20,7 @@ public class CommandeEditerPersonnage implements Commande {
 		String nomPerso = sc.next();
 		for (int i = 0; i < scenario.getListePersonnage().size();i++) {
 				
-			if (scenario.getListePersonnage().get(i).getNom().equals(nomPerso)) {
+			if (scenario.getListePersonnage().get(i).getNomFiche().equals(nomPerso)) {
 				System.out.println("Edition de " + scenario.getListePersonnage().get(i).getNomFiche() + " : ");
 				scenario.getListePersonnage().get(i).editer();
 				return;
