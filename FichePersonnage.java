@@ -149,16 +149,19 @@ public class FichePersonnage implements Fiche {
 		writer.println("Nom:" + this.nom);
 		writer.println("Prénom:" + this.prenom);
 		writer.println("Statistiques");
-		for(int i=1; i<= this.stats.size()+1; i++) {
-			writer.print(this.stats.get(i-1).getNom() + ":");
-			writer.println(this.stats.get(i-1).getValeur());
+		if (this.stats =! NULL) { 
+			for(int i=1; i<= this.stats.size()+1; i++) {
+				writer.print(this.stats.get(i-1).getNom() + ":");
+				writer.println(this.stats.get(i-1).getValeur());
+			}
 		}
 		writer.println("Compétences");
-		for(int i=1; i<= this.competences.size()+1; i++) {
-			writer.print(this.competences.get(i-1).getNom() + ":");
-			writer.println(this.competences.get(i-1).getValeur());
-		}
-								  
+		if (this.competences =! NULL) {
+			for(int i=1; i<= this.competences.size()+1; i++) {
+				writer.print(this.competences.get(i-1).getNom() + ":");
+				writer.println(this.competences.get(i-1).getValeur());
+			}
+		}					  
 	}
 	
 	public FichePersonnage charger(String nomFichier) {
