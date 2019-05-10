@@ -1,9 +1,12 @@
 package IHM;
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,6 +31,10 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 		private Fiche ficheSelectionnee; // La fiche sélectionnée à afficher
 		private JMenuBar menuBar;
 		private JMenu menuFiche;
+		private JButton bEnregistrer; 
+		private ActionListener actionEnregistrer;
+		private ArrayList<JTextArea> listeChamp; //La liste des champs modifiables
+		
 		
 		DefaultListModel<Fiche> modelFiche; //Le modèle des fiches pour rafraichir 
 		
@@ -43,22 +50,38 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 			//Création de la barre de menu
 			this.menuBar = new JMenuBar();
 			
+			//Création des boutons
+			this.bEnregistrer = new JButton("Enregistrer");
+			
+			//ActionListener
+			this.actionEnregistrer = new ActionEnregistrer();
+			this.bEnregistrer.addActionListener(this.actionEnregistrer);
+			
 			//Menu des fiches
 			this.menuFiche = new JMenu("Fiche");
 			//item ajouter une fiche perso
-			JMenuItem menuItemAjouter = new JMenuItem("Ajouter une fiche personnage");
-			menuItemAjouter.addActionListener(new ActionListener() {
+			JMenuItem menuItemAjouterPerso = new JMenuItem("Ajouter une fiche personnage");
+			menuItemAjouterPerso.addActionListener(new ActionListener() {
 
 				@Override
 				public void actionPerformed(ActionEvent ev) {
-					ajouterFiche();
-					
+					ajouterFichePerso();
 				}
-				
+			});
+			
+			//item ajouter une fiche lieu
+			JMenuItem menuItemAjouterLieu = new JMenuItem("Ajouter une fiche lieu");
+			menuItemAjouterLieu.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent ev) {
+					ajouterFicheLieu();
+				}
 			});
 			
 			//ajout de l'item
-			this.menuFiche.add(menuItemAjouter);
+			this.menuFiche.add(menuItemAjouterPerso);
+			this.menuFiche.add(menuItemAjouterLieu);
 			
 			//A l'ouest la liste des scénarios et des fiches
 			JPanel panelListe = new JPanel(new BorderLayout());
@@ -125,7 +148,7 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 			
 			//Ajout des panels
 			this.fenetre.add(panelListe, BorderLayout.WEST);
-			this.fenetre.add(this.panelAffichage,BorderLayout.EAST);
+			this.fenetre.add(this.panelAffichage,BorderLayout.CENTER);
 			
 			//Ajout du menu
 			this.menuBar.add(this.menuFiche);
@@ -139,11 +162,18 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 		
 		
 		
+		/**Action de l'ajout des fiches **/
 		
 		
+		protected void ajouterFichePerso() {
+			Fiche nouvelleFiche = new FichePersonnage("nouvelle fiche perso", this.jeu);
+			this.scenario.addFiche(nouvelleFiche);
+			this.modelFiche.addElement(nouvelleFiche);
+			
+		}
 		
-		protected void ajouterFiche() {
-			Fiche nouvelleFiche = new FichePersonnage("nouvelle fiche", this.jeu);
+		protected void ajouterFicheLieu() {
+			Fiche nouvelleFiche = new FicheLieu("nouvelle fiche lieu", this.jeu);
 			this.scenario.addFiche(nouvelleFiche);
 			this.modelFiche.addElement(nouvelleFiche);
 			
@@ -157,7 +187,6 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 
 		//Lorsque l'on clique sur une fiche
 		private void jListeFicheValueChanged(javax.swing.event.ListSelectionEvent evt) {
-			System.out.println("Changement fiche");
 			this.ficheSelectionnee = jListeFiche.getSelectedValue();
 			miseAJourAffichage();
 			
@@ -167,54 +196,63 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 		private void miseAJourAffichage() {
 			HashMap<String, String> composants = this.ficheSelectionnee.getComposants();
 			int nombreComposant = composants.size();
-			GridLayout layout = new GridLayout(nombreComposant, 2, 10, 10);
+			GridLayout layout = new GridLayout(nombreComposant, 2, 0, 10);
 			this.grilleAffichage = new JPanel(layout);
-
+			this.listeChamp = new ArrayList<JTextArea>();
+			
 			for (Map.Entry<String, String> entree : composants.entrySet()) {
 				
 				this.grilleAffichage.add(new JLabel(entree.getKey()));
-				JTextArea zoneTexte = new JTextArea(entree.getValue());
+				JTextArea zoneTexte = new JTextArea(3,40);
+				zoneTexte.setText(entree.getValue());
 				this.grilleAffichage.add(zoneTexte);
-				//Ajout d'un listener sur le texte
-				zoneTexte.getDocument().addDocumentListener(new ActionZoneTexte(entree.getKey(),entree.getValue()));
+				this.listeChamp.add(zoneTexte);
 			}
-			this.panelAffichage = new JPanel();
-			this.panelAffichage.add(this.grilleAffichage);
-			this.fenetre.add(this.panelAffichage,BorderLayout.EAST);
 			
-			this.fenetre.setSize(new Dimension (800,600));
+			
+			this.fenetre.remove(this.panelAffichage); //Reinitialisation
+			this.panelAffichage = new JPanel(new BorderLayout());
+			this.panelAffichage.add(this.grilleAffichage,BorderLayout.CENTER); //Ajout de la grille
+			
+			//On peut maintenant mettre nos boutons
+			JPanel panelBouton = new JPanel(new FlowLayout());
+			panelBouton.add(this.bEnregistrer);
+			
+			this.panelAffichage.add(panelBouton,BorderLayout.SOUTH);
+			this.fenetre.add(this.panelAffichage,BorderLayout.CENTER);
+			this.fenetre.pack();
 			
 		}
 		
-		private void miseAJourValeur(String cle, String valeur) {
-			System.out.println("changement");
-			this.ficheSelectionnee.getComposants().replace(cle, valeur);
-		}
-
-		private class ActionZoneTexte implements DocumentListener {
-			private String cle; // La clé à changer
-			private String valeur; //La nouvelle valeur;
+		/**
+		 * Sauvegarde la fiche selectionée 
+		 */
+		private void sauvegarder() {
+			HashMap<String, String> composants = this.ficheSelectionnee.getComposants();
 			
-			public ActionZoneTexte(String cle, String valeur) {
-				this.cle = cle;
-				this.valeur = valeur;
-			}
-
-			@Override
-			public void changedUpdate(DocumentEvent e) {
-				miseAJourValeur(cle,valeur); //mise a jour 
+			//Itéation de la hashmap
+			int i =0;
+			for (Map.Entry<String, String> entree : composants.entrySet()) {
+				String cle = entree.getKey();
+				String oldvaleur = entree.getValue();
+				JTextArea zoneTexte = this.listeChamp.get(i);
+				String newValeur = zoneTexte.getText();
+				i++;
+				
+				//Sauvegarde des attributs en interne
+				composants.replace(cle, newValeur);
+				
+				//TODO Sauvegarde en externe pour pouvoir retrouver nos fiches après lors d'une autre session
+				
 				
 			}
-
+		}
+		
+		public class ActionEnregistrer implements ActionListener {
+			//Quand j'appuie sur le bouton enregistrer
 			@Override
-			public void insertUpdate(DocumentEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-				// TODO Auto-generated method stub
+			public void actionPerformed(ActionEvent ev) {
+				sauvegarder();
 				
 			}
 			
