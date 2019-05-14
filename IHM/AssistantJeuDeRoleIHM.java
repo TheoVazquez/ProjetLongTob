@@ -23,7 +23,7 @@ import javax.swing.event.ListSelectionListener;
 public class AssistantJeuDeRoleIHM extends JPanel {
 		private Jeu jeu;
 		private Scenario scenario;
-		private JFrame fenetre;
+		private JFrame fenetre; //fenetre principale
 		private JList<Scenario> jListeScenario;
 		private JList<Fiche> jListeFiche;
 		private JPanel panelAffichage;
@@ -34,7 +34,10 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 		private JButton bEnregistrer; 
 		private ActionListener actionEnregistrer;
 		private ArrayList<JTextArea> listeChamp; //La liste des champs modifiables
-		
+		private JButton bNouvelAttribut;	
+		private ActionListener actionNouvelAttribut;
+		private JFrame fenetreNouvelAttribut;
+		private JTextArea zoneNom; //utile pour ajouter un nouvel attribut
 		
 		DefaultListModel<Fiche> modelFiche; //Le modèle des fiches pour rafraichir 
 		
@@ -52,11 +55,13 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 			
 			//Création des boutons
 			this.bEnregistrer = new JButton("Enregistrer");
+			this.bNouvelAttribut = new JButton("Ajouter un attribut");
 			
 			//ActionListener
 			this.actionEnregistrer = new ActionEnregistrer();
 			this.bEnregistrer.addActionListener(this.actionEnregistrer);
-			
+			this.actionNouvelAttribut = new ActionNouvelAttribut();
+			this.bNouvelAttribut.addActionListener(this.actionNouvelAttribut);
 			//Menu des fiches
 			this.menuFiche = new JMenu("Fiche");
 			//item ajouter une fiche perso
@@ -154,9 +159,13 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 			this.menuBar.add(this.menuFiche);
 			fenetre.setJMenuBar(this.menuBar);
 			
+			
 			this.fenetre.setSize(new Dimension (800,600));
 			fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			fenetre.setVisible(true);
+			
+			this.jListeScenario.setSelectedIndex(0); //On affiche par défaut le premier scénario
+			this.jListeFiche.setSelectedIndex(0); //On affiche par défaut la première fiche
 		}
 		
 		
@@ -217,6 +226,7 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 			//On peut maintenant mettre nos boutons
 			JPanel panelBouton = new JPanel(new FlowLayout());
 			panelBouton.add(this.bEnregistrer);
+			panelBouton.add(this.bNouvelAttribut);
 			
 			this.panelAffichage.add(panelBouton,BorderLayout.SOUTH);
 			this.fenetre.add(this.panelAffichage,BorderLayout.CENTER);
@@ -234,6 +244,7 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 			int i =0;
 			for (Map.Entry<String, String> entree : composants.entrySet()) {
 				String cle = entree.getKey();
+				System.out.println(cle);
 				String oldvaleur = entree.getValue();
 				JTextArea zoneTexte = this.listeChamp.get(i);
 				String newValeur = zoneTexte.getText();
@@ -248,11 +259,52 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 			}
 		}
 		
-		public class ActionEnregistrer implements ActionListener {
+		private void ajouterAttribut() {
+			this.fenetreNouvelAttribut = new JFrame("ajouter attribut");
+			fenetreNouvelAttribut.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			fenetreNouvelAttribut.setVisible(true);
+			JPanel panelNouvelAttribut = new JPanel(new BorderLayout());
+			panelNouvelAttribut.add(new JLabel("Entrez le nom du nouvel attribut : "),BorderLayout.NORTH);
+			this.zoneNom = new JTextArea(1,10); 
+			panelNouvelAttribut.add(zoneNom,BorderLayout.CENTER);
+			JButton bValider = new JButton("Valider");
+			bValider.addActionListener(new ActionOkNouvelAttribut());
+			panelNouvelAttribut.add(bValider,BorderLayout.SOUTH);
+			fenetreNouvelAttribut.add(panelNouvelAttribut);
+			fenetreNouvelAttribut.setSize(400, 200);;
+		}
+		
+		private void validerNouvelAttribut() {
+			this.ficheSelectionnee.getComposants().put(this.zoneNom.getText(), "");//On ajoute un nouvel attribut dont le nom est dans la zone de texte
+			this.fenetreNouvelAttribut.dispose();//on ferme cette fenetre
+			miseAJourAffichage();
+		}
+		
+		private class ActionEnregistrer implements ActionListener {
 			//Quand j'appuie sur le bouton enregistrer
 			@Override
 			public void actionPerformed(ActionEvent ev) {
 				sauvegarder();
+				
+			}
+			
+		}
+		
+		private class ActionNouvelAttribut implements ActionListener{
+			//Quand j'appuie sur le bouton nouvel attribut
+			@Override
+			public void actionPerformed(ActionEvent ev) {
+				
+				ajouterAttribut();
+				miseAJourAffichage();
+			}
+			
+		}
+		
+		private class ActionOkNouvelAttribut implements ActionListener{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				validerNouvelAttribut();
 				
 			}
 			
