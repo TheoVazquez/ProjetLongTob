@@ -42,6 +42,10 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 		private JButton bEnregistrer; 
 		private ActionListener actionEnregistrer;
 		private ArrayList<JPanelAttribut> listeChamp; //La liste des champs modifiables
+		private JButton bNouvelAttribut;	
+		private ActionListener actionNouvelAttribut;
+		private JFrame fenetreNouvelAttribut;
+		private JTextArea zoneNom; //utile pour ajouter un nouvel attribut
 		
 		
 		DefaultListModel<Fiche> modelFiche; //Le modèle des fiches pour rafraichir 
@@ -60,10 +64,13 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 			
 			//Création des boutons
 			this.bEnregistrer = new JButton("Enregistrer");
-			
+			this.bNouvelAttribut = new JButton("Ajouter un attribut");
+
 			//ActionListener
 			this.actionEnregistrer = new ActionEnregistrer();
 			this.bEnregistrer.addActionListener(this.actionEnregistrer);
+			this.actionNouvelAttribut = new ActionNouvelAttribut();
+			this.bNouvelAttribut.addActionListener(this.actionNouvelAttribut);
 			
 			//Menu des fiches
 			this.menuFiche = new JMenu("Fiche");
@@ -177,12 +184,14 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 		
 		protected void ajouterFichePerso() {
 			Fiche nouvelleFiche = this.scenario.ajouterFiche("Personnage");
+			this.scenario.addFiche(nouvelleFiche);
 			this.modelFiche.addElement(nouvelleFiche);
 			
 		}
 		
 		protected void ajouterFicheLieu() {
 			Fiche nouvelleFiche = this.scenario.ajouterFiche("Lieu");
+			this.scenario.addFiche(nouvelleFiche);
 			this.modelFiche.addElement(nouvelleFiche);
 			
 		}
@@ -218,6 +227,7 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 			//On peut maintenant mettre nos boutons
 			JPanel panelBouton = new JPanel(new FlowLayout());
 			panelBouton.add(this.bEnregistrer);
+			panelBouton.add(this.bNouvelAttribut);
 			
 			this.panelAffichage.add(panelBouton,BorderLayout.SOUTH);
 			this.fenetre.add(this.panelAffichage,BorderLayout.CENTER);
@@ -265,6 +275,28 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 			for (JPanelAttribut panel : this.listeChamp) {
 				panel.enregistrer();
 			}
+		}		
+
+		private void ajouterAttribut() {
+			this.fenetreNouvelAttribut = new JFrame("ajouter attribut");
+			fenetreNouvelAttribut.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			fenetreNouvelAttribut.setVisible(true);
+			JPanel panelNouvelAttribut = new JPanel(new BorderLayout());
+			panelNouvelAttribut.add(new JLabel("Entrez le nom du nouvel attribut : "),BorderLayout.NORTH);
+			this.zoneNom = new JTextArea(1,10); 
+			panelNouvelAttribut.add(zoneNom,BorderLayout.CENTER);
+			JButton bValider = new JButton("Valider");
+			bValider.addActionListener(new ActionOkNouvelAttribut());
+			panelNouvelAttribut.add(bValider,BorderLayout.SOUTH);
+			fenetreNouvelAttribut.add(panelNouvelAttribut);
+			fenetreNouvelAttribut.setSize(400, 200);;
+		}
+		
+		private void validerNouvelAttribut() {
+			Iterator<Categorie> iterateur = this.ficheSelectionnee.iteratorCategories();
+			iterateur.next()ajouterAttributString(new Attribut<String>(this.zoneNom.getText(), ""));//On ajoute un nouvel attribut dont le nom est dans la zone de texte
+			this.fenetreNouvelAttribut.dispose();//on ferme cette fenetre
+			miseAJourAffichage();
 		}
 		
 		public class ActionEnregistrer implements ActionListener {
@@ -276,4 +308,25 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 			}
 			
 		}
+
+		private class ActionNouvelAttribut implements ActionListener{
+			//Quand j'appuie sur le bouton nouvel attribut
+			@Override
+			public void actionPerformed(ActionEvent ev) {
+				
+				ajouterAttribut();
+				miseAJourAffichage();
+			}
+			
+		}
+		
+		private class ActionOkNouvelAttribut implements ActionListener{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				validerNouvelAttribut();
+				
+			}
+			
+		}
+
 }
