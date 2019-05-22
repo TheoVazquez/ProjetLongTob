@@ -294,7 +294,7 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 		
 		private void validerNouvelAttribut() {
 			Iterator<Categorie> iterateur = this.ficheSelectionnee.iteratorCategories();
-			iterateur.next()ajouterAttributString(new Attribut<String>(this.zoneNom.getText(), ""));//On ajoute un nouvel attribut dont le nom est dans la zone de texte
+			iterateur.next().ajouterAttributString(new Attribut<String>(this.zoneNom.getText(), ""));//On ajoute un nouvel attribut dont le nom est dans la zone de texte
 			this.fenetreNouvelAttribut.dispose();//on ferme cette fenetre
 			miseAJourAffichage();
 		}
