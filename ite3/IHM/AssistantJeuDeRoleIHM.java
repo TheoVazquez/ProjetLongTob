@@ -6,6 +6,9 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -24,7 +27,7 @@ import model.fiche.FicheBase;
 import model.fiche.attribut.Attribut;
 
 /**  
- * Notre assistant qui pour le moment est chargÃ© avec un jeu et un scÃ©nario prÃ©-dÃ©finis 
+ * Notre assistant qui pour le moment est chargé avec un jeu et un scénario pré-définis 
  *
  */
 public class AssistantJeuDeRoleIHM extends JPanel {
@@ -36,7 +39,8 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 		private JList<Fiche> jListeFiche;
 		private JPanel panelAffichage;
 		private JPanel grilleAffichage;
-		private Fiche ficheSelectionnee; // La fiche sÃ©lectionnÃ©e Ã  afficher
+		private JPanel panelFiche;
+		private Fiche ficheSelectionnee; // La fiche sélectionnée Ã  afficher
 		private JMenuBar menuBar;
 		private JMenu menuFiche;
 		private JButton bEnregistrer; 
@@ -46,7 +50,7 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 		private ActionListener actionNouvelAttribut;
 		private JFrame fenetreNouvelAttribut;
 		private JTextArea zoneNom; //utile pour ajouter un nouvel attribut
-		
+
 		
 		DefaultListModel<Fiche> modelFiche; //Le modÃ¨le des fiches pour rafraichir 
 		
@@ -59,10 +63,10 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 			this.fenetre.setLayout(new BorderLayout(30,15));
 			
 			
-			//CrÃ©ation de la barre de menu
+			//Création de la barre de menu
 			this.menuBar = new JMenuBar();
 			
-			//CrÃ©ation des boutons
+			//Création des boutons
 			this.bEnregistrer = new JButton("Enregistrer");
 			this.bNouvelAttribut = new JButton("Ajouter un attribut");
 
@@ -104,8 +108,8 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 			//Dans ce panel, ï¿½ l'ouest la liste des scï¿½narios :
 			JPanel panelScenario = new JPanel();
 			panelScenario.setLayout(new BoxLayout(panelScenario, BoxLayout.Y_AXIS));
-			panelScenario.add(new JLabel("Scï¿½narios : "));
-			//Notre liste de scï¿½nario : 
+			panelScenario.add(new JLabel("Scenarios : "));
+			//Notre liste de scenario : 
 			DefaultListModel<model.Scenario> modelScenario = new DefaultListModel<>();
 			modelScenario.addElement(scenario);
 			this.jListeScenario = new JList<>(modelScenario);
@@ -118,7 +122,7 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 			
 			
 			// A l'est la liste des fiches 
-			JPanel panelFiche = new JPanel();
+			this.panelFiche = new JPanel();
 			panelFiche.setLayout(new BoxLayout(panelFiche,BoxLayout.Y_AXIS));
 			panelFiche.add(new JLabel("Fiches"));
 			//Notre liste de Fiche : 
@@ -135,7 +139,7 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 
 				@Override
 				public void valueChanged(ListSelectionEvent evt) {
-				    if (!evt.getValueIsAdjusting()) {//Cette ligne ï¿½vite les doublons
+				    if (!evt.getValueIsAdjusting()) {//Cette ligne évite les doublons
 
 				    
 					jListeFicheValueChanged(evt);
@@ -143,6 +147,14 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 				}
 				
 			});
+			
+			//Ajout d'un listener de clique droit
+			jListeFiche.addMouseListener(new MouseAdapter() {
+				public void mousePressed(MouseEvent e) {
+					fiche_mousePressed(e);
+				}
+			});
+			
 			//On l'ajoute ensuite au panel
 			panelFiche.add(jListeFiche);
 			
@@ -184,7 +196,7 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 		
 		protected void ajouterFichePerso() {
 			Fiche nouvelleFiche = this.scenario.ajouterFiche("Personnage");
-			this.modelFiche.addElement(nouvelleFiche);
+			this.modelFiche.addElement(nouvelleFiche); //ajoute la fiche au modèle pour rafraichir la liste des fiches
 			
 		}
 		
@@ -195,7 +207,22 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 		}
 
 
-		
+		/**Action de clique sur les fiches**/
+		protected void fiche_mousePressed(MouseEvent e) {
+			
+			int buttonDown = e.getButton(); //le bouton pressé
+			
+			if (buttonDown == MouseEvent.BUTTON3) { //le clique droit
+				JPopupMenu menu = new JPopupMenu();
+				JMenuItem itemRenommer = new JMenuItem("renommer");
+				JMenuItem itemSupprimer = new JMenuItem("supprimer");
+				//ajout des items
+				menu.add(itemRenommer);
+				menu.add(itemSupprimer);
+				menu.show(this.panelFiche,e.getX(),e.getY());
+			}
+			
+		}
 
 
 
@@ -207,7 +234,7 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 			
 		}
 		
-		/**Met a jour la fiche ï¿½ afficher**/
+		/**Met a jour la fiche à afficher**/
 		private void miseAJourAffichage() {
 			this.grilleAffichage = new JPanel();
 			this.grilleAffichage.setLayout(new BoxLayout(this.grilleAffichage, BoxLayout.PAGE_AXIS));
@@ -242,9 +269,6 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 				Attribut<String> attribut = iterateurString.next();
 				GestionnaireAttribut<String> gestionnaire = new GestionnaireAttribut<>(attribut);
 				JPanelAttribut panel = new JPanelAttributString(gestionnaire);
-				System.out.println("String " + panel.getMaximumSize());
-				System.out.println("String " + panel.getMinimumSize());
-				System.out.println("String " + panel.getPreferredSize());
 				grille.add(panel);
 				this.listeChamp.add(panel);
 			}
@@ -253,9 +277,6 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 				Attribut<Integer> attribut = iterateurInteger.next();
 				GestionnaireAttribut<Integer> gestionnaire = new GestionnaireAttribut<>(attribut);
 				JPanelAttribut panel = new JPanelAttributInteger(gestionnaire);
-				System.out.println("Integer " + panel.getMaximumSize());
-				System.out.println("Integer " + panel.getMinimumSize());
-				System.out.println("Integer " + panel.getPreferredSize());
 				grille.add(panel);
 				this.listeChamp.add(panel);
 			}

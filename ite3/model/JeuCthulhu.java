@@ -20,11 +20,11 @@ public class JeuCthulhu implements Jeu {
 	 */
 	public JeuCthulhu() {
 		ArrayList<Categorie> personnage = new ArrayList<>();
-		Categorie categoriePersonnage = new Categorie("IdentitÃ©");
+		Categorie categoriePersonnage = new Categorie("Identité");
 		categoriePersonnage.ajouterAttributString(new Attribut<String>("Nom", ""));
-		categoriePersonnage.ajouterAttributString(new Attribut<String>("PrÃ©nom", ""));
+		categoriePersonnage.ajouterAttributString(new Attribut<String>("Prénom", ""));
 		personnage.add(categoriePersonnage);
-		categoriePersonnage = new Categorie("CaractÃ©ristiques");
+		categoriePersonnage = new Categorie("Caractéristiques");
 		categoriePersonnage.ajouterAttributInteger(new Attribut<Integer>("FOR", 0));
 		categoriePersonnage.ajouterAttributInteger(new Attribut<Integer>("DEX", 0));
 		categoriePersonnage.ajouterAttributInteger(new Attribut<Integer>("POU", 0));
