@@ -20,6 +20,7 @@ import javax.swing.event.ListSelectionListener;
 
 import controller.GestionnaireAttribut;
 import controller.recherche.Classeur;
+import model.Jet;
 import model.Jeu;
 import model.fiche.Categorie;
 import model.fiche.Fiche;
@@ -40,6 +41,7 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 		private JPanel panelAffichage;
 		private JPanel grilleAffichage;
 		private JPanel panelFiche;
+		private JPanel panelDés;
 		private Fiche ficheSelectionnee; // La fiche sélectionnée Ã  afficher
 		private JMenuBar menuBar;
 		private JMenu menuFiche;
@@ -50,6 +52,7 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 		private ActionListener actionNouvelAttribut;
 		private JFrame fenetreNouvelAttribut;
 		private JTextArea zoneNom; //utile pour ajouter un nouvel attribut
+		
 
 		
 		DefaultListModel<Fiche> modelFiche; //Le modÃ¨le des fiches pour rafraichir 
@@ -174,9 +177,53 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 			this.grilleAffichage = new JPanel();
 			this.panelAffichage.add(this.grilleAffichage);
 			
+			
+			//Au sud, l'interface des dés
+			this.panelDés = new JPanel();
+			this.panelDés.setLayout(new GridLayout(5,3,1,1)); //l1 : résultat, l2 : label de nombre de dés et de face, l3 textarea, l4, bouton lancé
+			this.panelDés.add(new JSeparator(SwingConstants.HORIZONTAL));
+			this.panelDés.add(new JSeparator(SwingConstants.HORIZONTAL));
+			this.panelDés.add(new JSeparator(SwingConstants.HORIZONTAL));
+			JLabel labelRésultat = new JLabel("Résultat du lancer");
+			this.panelDés.add(new JPanel());
+			this.panelDés.add(labelRésultat);
+			this.panelDés.add(new JPanel());
+			this.panelDés.add(new JLabel("Nombre de dés"));
+			this.panelDés.add(new JPanel());
+			this.panelDés.add(new JLabel("Nombre de face"));
+			JTextArea texteNombreDés = new JTextArea(1,3);
+			JTextArea texteNombreFace = new JTextArea(1,3);
+			this.panelDés.add(texteNombreDés);
+			this.panelDés.add(new JPanel());
+			this.panelDés.add(texteNombreFace);
+			this.panelDés.add(new JPanel());
+			JButton buttonLancer = new JButton("Lancer");
+			buttonLancer.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					if(!(texteNombreDés.getText().equals("")) && !(texteNombreFace.getText().equals(""))) { //on vérifie que les champs e sont pas null
+					try {
+					int nombreDés = Integer.parseInt(texteNombreDés.getText());
+					int nombreFace = Integer.parseInt(texteNombreFace.getText());
+					Jet jet = new Jet(nombreDés, nombreFace);
+					labelRésultat.setText(Integer.toString(jet.getSomme()));
+						}
+					catch(Exception e) {
+						System.out.println("Veuillez entrer deux entiers dans les champs ");
+					}
+					}
+				}
+				
+			});
+			this.panelDés.add(buttonLancer);
+			this.panelDés.add(new JPanel());
+			
 			//Ajout des panels
 			this.fenetre.add(panelListe, BorderLayout.WEST);
 			this.fenetre.add(this.panelAffichage,BorderLayout.CENTER);
+			
+			this.fenetre.add(this.panelDés,BorderLayout.SOUTH);
 			
 			//Ajout du menu
 			this.menuBar.add(this.menuFiche);
