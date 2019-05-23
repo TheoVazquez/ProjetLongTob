@@ -140,8 +140,6 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 				@Override
 				public void valueChanged(ListSelectionEvent evt) {
 				    if (!evt.getValueIsAdjusting()) {//Cette ligne évite les doublons
-
-				    
 					jListeFicheValueChanged(evt);
 				    }
 				}
@@ -151,7 +149,8 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 			//Ajout d'un listener de clique droit
 			jListeFiche.addMouseListener(new MouseAdapter() {
 				public void mousePressed(MouseEvent e) {
-					fiche_mousePressed(e);
+					ficheMousePressed(e);
+					
 				}
 			});
 			
@@ -208,14 +207,31 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 
 
 		/**Action de clique sur les fiches**/
-		protected void fiche_mousePressed(MouseEvent e) {
-			
+		protected void ficheMousePressed(MouseEvent e) {
+			JList liste = (JList)e.getSource(); //on récupère la liste
+			int rang = liste.locationToIndex(e.getPoint());//on récupère le rang de la fiche sélectionnée
+			liste.setSelectedIndex(rang);
 			int buttonDown = e.getButton(); //le bouton pressé
-			
 			if (buttonDown == MouseEvent.BUTTON3) { //le clique droit
 				JPopupMenu menu = new JPopupMenu();
 				JMenuItem itemRenommer = new JMenuItem("renommer");
 				JMenuItem itemSupprimer = new JMenuItem("supprimer");
+				//actions associées
+				itemSupprimer.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent ev) {
+						supprimerFiche(rang);
+						liste.setSelectedIndex(0);
+					}
+					
+				});
+				
+				itemRenommer.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						renommerFiche(rang);
+					}
+				});
 				//ajout des items
 				menu.add(itemRenommer);
 				menu.add(itemSupprimer);
@@ -224,13 +240,46 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 			
 		}
 
-
+		private void supprimerFiche(int rang) {
+			this.scenario.setFicheCourante(this.ficheSelectionnee);
+			this.modelFiche.remove(rang);
+		}
+		
+		private void renommerFiche(int rang) {
+			
+			JFrame fenetreNouveauNom = new JFrame("renommer fiche");
+			fenetreNouveauNom.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			fenetreNouveauNom.setVisible(true);
+			JPanel panelNouveauNom = new JPanel(new BorderLayout());
+			panelNouveauNom.add(new JLabel("Entrez le nouveau nom de la fiche : "),BorderLayout.NORTH);
+			this.zoneNom = new JTextArea(1,10); 
+			panelNouveauNom.add(zoneNom,BorderLayout.CENTER);
+			JButton bValider = new JButton("Valider");
+			bValider.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					System.out.println(zoneNom.getText());
+					modelFiche.get(rang).setNomFiche(zoneNom.getText());
+					miseAJourAffichage();
+					fenetreNouveauNom.dispose();
+					
+				}
+			});
+			panelNouveauNom.add(bValider,BorderLayout.SOUTH);
+			fenetreNouveauNom.add(panelNouveauNom);
+			fenetreNouveauNom.setSize(400, 200);
+			
+		}
 
 
 		//Lorsque l'on clique sur une fiche
 		private void jListeFicheValueChanged(javax.swing.event.ListSelectionEvent evt) {
 			this.ficheSelectionnee = jListeFiche.getSelectedValue();
-			miseAJourAffichage();
+			if(this.ficheSelectionnee!=null) {
+		
+				miseAJourAffichage();
+			}
+
 			
 		}
 		
@@ -308,7 +357,7 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 			bValider.addActionListener(new ActionOkNouvelAttribut());
 			panelNouvelAttribut.add(bValider,BorderLayout.SOUTH);
 			fenetreNouvelAttribut.add(panelNouvelAttribut);
-			fenetreNouvelAttribut.setSize(400, 200);;
+			fenetreNouvelAttribut.setSize(400, 200);
 		}
 		
 		private void validerNouvelAttribut() {
@@ -317,6 +366,9 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 			this.fenetreNouvelAttribut.dispose();//on ferme cette fenetre
 			miseAJourAffichage();
 		}
+		
+	
+			
 		
 		public class ActionEnregistrer implements ActionListener {
 			//Quand j'appuie sur le bouton enregistrer
@@ -347,5 +399,7 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 			}
 			
 		}
+		
+			
 
 }

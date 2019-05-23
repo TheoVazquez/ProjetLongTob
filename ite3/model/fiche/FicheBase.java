@@ -45,6 +45,10 @@ public class FicheBase implements Fiche {
 		return this.categories.size();
 	}
 	
+	public void setNomFiche(String nom) {
+		this.nomFiche = nom;
+	}
+	
 	/**
 	 * Reinitialise les valeurs des attributs de la fiche
 	 */

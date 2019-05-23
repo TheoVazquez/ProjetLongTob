@@ -39,5 +39,10 @@ public interface Fiche {
 	 * @return Un itérateur de la liste des catégories de la fiche
 	 */
 	Iterator<Categorie> iteratorCategories();
+	
+	/**
+	 * permet de renommer une fiche
+	 */
+	void setNomFiche(String nom);
 
 }
