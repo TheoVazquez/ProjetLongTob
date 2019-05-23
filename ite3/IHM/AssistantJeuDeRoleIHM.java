@@ -28,7 +28,7 @@ import model.fiche.FicheBase;
 import model.fiche.attribut.Attribut;
 
 /**  
- * Notre assistant qui pour le moment est chargé avec un jeu et un scénario pré-définis 
+ * Notre assistant qui pour le moment est chargï¿½ avec un jeu et un scï¿½nario prï¿½-dï¿½finis 
  *
  */
 public class AssistantJeuDeRoleIHM extends JPanel {
@@ -66,10 +66,10 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 			this.fenetre.setLayout(new BorderLayout(30,15));
 			
 			
-			//Création de la barre de menu
+			//Crï¿½ation de la barre de menu
 			this.menuBar = new JMenuBar();
 			
-			//Création des boutons
+			//Crï¿½ation des boutons
 			this.bEnregistrer = new JButton("Enregistrer");
 			this.bNouvelAttribut = new JButton("Ajouter un attribut");
 
@@ -142,7 +142,7 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 
 				@Override
 				public void valueChanged(ListSelectionEvent evt) {
-				    if (!evt.getValueIsAdjusting()) {//Cette ligne évite les doublons
+				    if (!evt.getValueIsAdjusting()) {//Cette ligne ï¿½vite les doublons
 					jListeFicheValueChanged(evt);
 				    }
 				}
@@ -242,7 +242,7 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 		
 		protected void ajouterFichePerso() {
 			Fiche nouvelleFiche = this.scenario.ajouterFiche("Personnage");
-			this.modelFiche.addElement(nouvelleFiche); //ajoute la fiche au modèle pour rafraichir la liste des fiches
+			this.modelFiche.addElement(nouvelleFiche); //ajoute la fiche au modï¿½le pour rafraichir la liste des fiches
 			
 		}
 		
@@ -255,15 +255,15 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 
 		/**Action de clique sur les fiches**/
 		protected void ficheMousePressed(MouseEvent e) {
-			JList liste = (JList)e.getSource(); //on récupère la liste
-			int rang = liste.locationToIndex(e.getPoint());//on récupère le rang de la fiche sélectionnée
+			JList liste = (JList)e.getSource(); //on rï¿½cupï¿½re la liste
+			int rang = liste.locationToIndex(e.getPoint());//on rï¿½cupï¿½re le rang de la fiche sï¿½lectionnï¿½e
 			liste.setSelectedIndex(rang);
-			int buttonDown = e.getButton(); //le bouton pressé
+			int buttonDown = e.getButton(); //le bouton pressï¿½
 			if (buttonDown == MouseEvent.BUTTON3) { //le clique droit
 				JPopupMenu menu = new JPopupMenu();
 				JMenuItem itemRenommer = new JMenuItem("renommer");
 				JMenuItem itemSupprimer = new JMenuItem("supprimer");
-				//actions associées
+				//actions associï¿½es
 				itemSupprimer.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent ev) {
@@ -330,7 +330,7 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 			
 		}
 		
-		/**Met a jour la fiche à afficher**/
+		/**Met a jour la fiche ï¿½ afficher**/
 		private void miseAJourAffichage() {
 			this.grilleAffichage = new JPanel();
 			this.grilleAffichage.setLayout(new BoxLayout(this.grilleAffichage, BoxLayout.PAGE_AXIS));
