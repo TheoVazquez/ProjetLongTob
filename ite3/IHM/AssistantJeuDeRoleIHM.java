@@ -202,12 +202,12 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 			this.panelDes.add(new JPanel());
 			this.panelDes.add(new JLabel("Mutiplicateur")); // idem avec multiplicateur
 
-			JTextArea texteMultiplicateur = new JTextArea(1,3); // espace de texte pour additionneur
-			JTextArea texteAdditionneur = new JTextArea(1,3); // espace de texte pour multiplicateur
+			JTextArea texteAdditionneur = new JTextArea(1,3); // espace de texte pour additionneur
+			JTextArea texteMultiplicateur = new JTextArea(1,3); // espace de texte pour multiplicateur
 
-			this.panelDes.add(texteMultiplicateur);
-			this.panelDes.add(new JPanel());
 			this.panelDes.add(texteAdditionneur);
+			this.panelDes.add(new JPanel());
+			this.panelDes.add(texteMultiplicateur);
 
 			JButton buttonLancerOnAll = new JButton("Lancer avec effet sur resultat final"); // un bouton oe modif s'appliquent au resultat final
 			buttonLancerOnAll.addActionListener(new ActionListener() {
@@ -215,7 +215,7 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					
-					// additionneur mais pas multiplicateur
+					// multiplicateur mais pas additionneur
 					if(!(texteNombreDes.getText().equals("")) && !(texteNombreFace.getText().equals("")) && !(texteMultiplicateur.getText().equals("")) && (texteAdditionneur.getText().equals(""))) { //on verifie que les champs ne sont pas null
 					try {
 					int nombreDes = Integer.parseInt(texteNombreDes.getText());
@@ -229,13 +229,13 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 					}
 					}
 					
-					// multiplicateur mais pas additionneur
+					// additionneur mais pas multiplicateur
 					if(!(texteNombreDes.getText().equals("")) && !(texteNombreFace.getText().equals("")) && (texteMultiplicateur.getText().equals("")) && !(texteAdditionneur.getText().equals(""))) { //on verifie que les champs ne sont pas null
 						try {
 						int nombreDes = Integer.parseInt(texteNombreDes.getText());
 						int nombreFace = Integer.parseInt(texteNombreFace.getText());
 						int additionneur = Integer.parseInt(texteAdditionneur.getText());
-						Jet jet = new Jet(nombreDes, nombreFace, additionneur, 0, false); // on appelle contructeur sans multplieur et avec additionneur
+						Jet jet = new Jet(nombreDes, nombreFace, additionneur, 1, false); // on appelle contructeur sans multplieur et avec additionneur
 						labelResultat.setText(Integer.toString(jet.getSomme())+"( "+jet.getJets().toString()+" )");
 							}
 						catch(Exception e) {
@@ -244,7 +244,7 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 						}
 					
 					// ni additionneur ni multiplicateur
-					if(!(texteNombreDes.getText().equals("")) && !(texteNombreFace.getText().equals("")) && !(texteMultiplicateur.getText().equals("")) && !(texteAdditionneur.getText().equals(""))) { //on verifie que les champs ne sont pas null
+					if(!(texteNombreDes.getText().equals("")) && !(texteNombreFace.getText().equals("")) && (texteMultiplicateur.getText().equals("")) && (texteAdditionneur.getText().equals(""))) { //on verifie que les champs ne sont pas null
 						try {
 						int nombreDes = Integer.parseInt(texteNombreDes.getText());
 						int nombreFace = Integer.parseInt(texteNombreFace.getText());
@@ -255,6 +255,21 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 							System.out.println("Veuillez entrer des entiers dans les champs ");
 						}
 						}
+					
+					if(!(texteNombreDes.getText().equals("")) && !(texteNombreFace.getText().equals("")) && !(texteMultiplicateur.getText().equals("")) && !(texteAdditionneur.getText().equals(""))) { //on verifie que les champs ne sont pas null
+						try {
+						int nombreDes = Integer.parseInt(texteNombreDes.getText());
+						int nombreFace = Integer.parseInt(texteNombreFace.getText());
+						int additionneur = Integer.parseInt(texteAdditionneur.getText());
+						int multiplicateur = Integer.parseInt(texteMultiplicateur.getText());
+						Jet jet = new Jet(nombreDes, nombreFace,additionneur, multiplicateur, false); // on appelle constructeur avec modifications
+						labelResultat.setText(Integer.toString(jet.getSomme())+"( "+jet.getJets().toString()+" )");
+							}
+						catch(Exception e) {
+							System.out.println("Veuillez entrer des entiers dans les champs ");
+						}
+						}
+					
 				}
 				
 			});
@@ -268,7 +283,7 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					
-					// additionneur mais pas multiplicateur
+					// multiplicateur mais pas additionneur
 					if(!(texteNombreDes.getText().equals("")) && !(texteNombreFace.getText().equals("")) && !(texteMultiplicateur.getText().equals("")) && (texteAdditionneur.getText().equals(""))) { //on verifie que les champs ne sont pas null
 					try {
 					int nombreDes = Integer.parseInt(texteNombreDes.getText());
@@ -282,13 +297,13 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 					}
 					}
 					
-					// multiplicateur mais pas additionneur
+					// additionneur mais pas multiplicateur
 					if(!(texteNombreDes.getText().equals("")) && !(texteNombreFace.getText().equals("")) && (texteMultiplicateur.getText().equals("")) && !(texteAdditionneur.getText().equals(""))) { //on verifie que les champs ne sont pas null
 						try {
 						int nombreDes = Integer.parseInt(texteNombreDes.getText());
 						int nombreFace = Integer.parseInt(texteNombreFace.getText());
 						int additionneur = Integer.parseInt(texteAdditionneur.getText());
-						Jet jet = new Jet(nombreDes, nombreFace, additionneur, 0,true);
+						Jet jet = new Jet(nombreDes, nombreFace, additionneur, 1,true);
 						labelResultat.setText(Integer.toString(jet.getSomme())+"( "+jet.getJets().toString()+" )");
 							}
 						catch(Exception e) {
@@ -297,7 +312,7 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 						}
 					
 					// ni additionneur ni multiplicateur
-					if(!(texteNombreDes.getText().equals("")) && !(texteNombreFace.getText().equals("")) && !(texteMultiplicateur.getText().equals("")) && !(texteAdditionneur.getText().equals(""))) { //on verifie que les champs ne sont pas null
+					if(!(texteNombreDes.getText().equals("")) && !(texteNombreFace.getText().equals("")) && (texteMultiplicateur.getText().equals("")) && (texteAdditionneur.getText().equals(""))) { //on verifie que les champs ne sont pas null
 						try {
 						int nombreDes = Integer.parseInt(texteNombreDes.getText());
 						int nombreFace = Integer.parseInt(texteNombreFace.getText());
@@ -310,7 +325,7 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 						}
 					
 					// additionneur et multiplicateur (d'abord multiplication puis addition)
-					if(!(texteNombreDes.getText().equals("")) && !(texteNombreFace.getText().equals("")) && (texteMultiplicateur.getText().equals("")) && (texteAdditionneur.getText().equals(""))) { //on verifie que les champs ne sont pas null
+					if(!(texteNombreDes.getText().equals("")) && !(texteNombreFace.getText().equals("")) && !(texteMultiplicateur.getText().equals("")) && !(texteAdditionneur.getText().equals(""))) { //on verifie que les champs ne sont pas null
 						try {
 						int nombreDes = Integer.parseInt(texteNombreDes.getText());
 						int nombreFace = Integer.parseInt(texteNombreFace.getText());
