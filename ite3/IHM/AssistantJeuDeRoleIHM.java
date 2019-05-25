@@ -180,7 +180,7 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 			
 			//Au sud, l'interface des des
 			this.panelDes = new JPanel();
-			this.panelDes.setLayout(new GridLayout(5,3,1,1)); //l1 : resultat, l2 : label de nombre de des et de face, l3 textarea, l4, bouton lance
+			this.panelDes.setLayout(new GridLayout(7,3,3,3));
 			this.panelDes.add(new JSeparator(SwingConstants.HORIZONTAL));
 			this.panelDes.add(new JSeparator(SwingConstants.HORIZONTAL));
 			this.panelDes.add(new JSeparator(SwingConstants.HORIZONTAL));
@@ -191,23 +191,24 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 			this.panelDes.add(new JLabel("Nombre de des"));
 			this.panelDes.add(new JPanel());
 			this.panelDes.add(new JLabel("Nombre de face"));
-			this.panelDes.add(new JPanel());
-			this.panelDes.add(new JLabel("Additionneur"));  // on ajoute la possibilite d'avoir un additionneur
-			this.panelDes.add(new JPanel());
-			this.panelDes.add(new JLabel("Mutiplicateur")); // idem avec multiplicateur
 			
 			JTextArea texteNombreDes = new JTextArea(1,3);
 			JTextArea texteNombreFace = new JTextArea(1,3);
-			JTextArea texteMultiplicateur = new JTextArea(1,3); // espace de texte pour additionneur
-			JTextArea texteAdditionneur = new JTextArea(1,3); // espace de texte pour multiplicateur
 			this.panelDes.add(texteNombreDes);
 			this.panelDes.add(new JPanel());
 			this.panelDes.add(texteNombreFace);
+
+			this.panelDes.add(new JLabel("Additionneur"));  // on ajoute la possibilite d'avoir un additionneur
 			this.panelDes.add(new JPanel());
+			this.panelDes.add(new JLabel("Mutiplicateur")); // idem avec multiplicateur
+
+			JTextArea texteMultiplicateur = new JTextArea(1,3); // espace de texte pour additionneur
+			JTextArea texteAdditionneur = new JTextArea(1,3); // espace de texte pour multiplicateur
+
 			this.panelDes.add(texteMultiplicateur);
 			this.panelDes.add(new JPanel());
 			this.panelDes.add(texteAdditionneur);
-			this.panelDes.add(new JPanel());
+
 			JButton buttonLancerOnAll = new JButton("Lancer avec effet sur resultat final"); // un bouton oe modif s'appliquent au resultat final
 			buttonLancerOnAll.addActionListener(new ActionListener() {
 
@@ -326,7 +327,6 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 				
 			});
 			this.panelDes.add(buttonLancerOnEach);
-			this.panelDes.add(new JPanel());
 			
 			
 			
