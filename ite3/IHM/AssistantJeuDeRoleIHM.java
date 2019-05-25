@@ -28,7 +28,7 @@ import model.fiche.FicheBase;
 import model.fiche.attribut.Attribut;
 
 /**  
- * Notre assistant qui pour le moment est chargï¿½ avec un jeu et un scï¿½nario prï¿½-dï¿½finis 
+ * Notre assistant qui pour le moment est charge avec un jeu et un scenario pre-definis 
  *
  */
 public class AssistantJeuDeRoleIHM extends JPanel {
@@ -41,8 +41,8 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 		private JPanel panelAffichage;
 		private JPanel grilleAffichage;
 		private JPanel panelFiche;
-		private JPanel panelDés;
-		private Fiche ficheSelectionnee; // La fiche sélectionnée Ã  afficher
+		private JPanel panelDes;
+		private Fiche ficheSelectionnee; // La fiche selectionnee e  afficher
 		private JMenuBar menuBar;
 		private JMenu menuFiche;
 		private JButton bEnregistrer; 
@@ -66,10 +66,10 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 			this.fenetre.setLayout(new BorderLayout(30,15));
 			
 			
-			//Crï¿½ation de la barre de menu
+			//Creation de la barre de menu
 			this.menuBar = new JMenuBar();
 			
-			//Crï¿½ation des boutons
+			//Creation des boutons
 			this.bEnregistrer = new JButton("Enregistrer");
 			this.bNouvelAttribut = new JButton("Ajouter un attribut");
 
@@ -105,10 +105,10 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 			this.menuFiche.add(menuItemAjouterPerso);
 			this.menuFiche.add(menuItemAjouterLieu);
 			
-			//A l'ouest la liste des scï¿½narios et des fiches
+			//A l'ouest la liste des scenarios et des fiches
 			JPanel panelListe = new JPanel(new BorderLayout());
 		
-			//Dans ce panel, ï¿½ l'ouest la liste des scï¿½narios :
+			//Dans ce panel, e l'ouest la liste des scenarios :
 			JPanel panelScenario = new JPanel();
 			panelScenario.setLayout(new BoxLayout(panelScenario, BoxLayout.Y_AXIS));
 			panelScenario.add(new JLabel("Scenarios : "));
@@ -137,12 +137,12 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 	    	}
 			this.jListeFiche = new JList<Fiche>(modelFiche);
 
-			//ajout du listener quand on clique sur un ï¿½lï¿½ment de la liste
+			//ajout du listener quand on clique sur un element de la liste
 			jListeFiche.addListSelectionListener(new ListSelectionListener() {
 
 				@Override
 				public void valueChanged(ListSelectionEvent evt) {
-				    if (!evt.getValueIsAdjusting()) {//Cette ligne ï¿½vite les doublons
+				    if (!evt.getValueIsAdjusting()) {//Cette ligne evite les doublons
 					jListeFicheValueChanged(evt);
 				    }
 				}
@@ -171,59 +171,170 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 			
 			
 			
-			//A l'est un panel affichant la fiche selectionnï¿½e 
+			//A l'est un panel affichant la fiche selectionnee 
 			this.panelAffichage = new JPanel();
 		
 			this.grilleAffichage = new JPanel();
 			this.panelAffichage.add(this.grilleAffichage);
 			
 			
-			//Au sud, l'interface des dés
-			this.panelDés = new JPanel();
-			this.panelDés.setLayout(new GridLayout(5,3,1,1)); //l1 : résultat, l2 : label de nombre de dés et de face, l3 textarea, l4, bouton lancé
-			this.panelDés.add(new JSeparator(SwingConstants.HORIZONTAL));
-			this.panelDés.add(new JSeparator(SwingConstants.HORIZONTAL));
-			this.panelDés.add(new JSeparator(SwingConstants.HORIZONTAL));
-			JLabel labelRésultat = new JLabel("Résultat du lancer");
-			this.panelDés.add(new JPanel());
-			this.panelDés.add(labelRésultat);
-			this.panelDés.add(new JPanel());
-			this.panelDés.add(new JLabel("Nombre de dés"));
-			this.panelDés.add(new JPanel());
-			this.panelDés.add(new JLabel("Nombre de face"));
-			JTextArea texteNombreDés = new JTextArea(1,3);
+			//Au sud, l'interface des des
+			this.panelDes = new JPanel();
+			this.panelDes.setLayout(new GridLayout(5,3,1,1)); //l1 : resultat, l2 : label de nombre de des et de face, l3 textarea, l4, bouton lance
+			this.panelDes.add(new JSeparator(SwingConstants.HORIZONTAL));
+			this.panelDes.add(new JSeparator(SwingConstants.HORIZONTAL));
+			this.panelDes.add(new JSeparator(SwingConstants.HORIZONTAL));
+			JLabel labelResultat = new JLabel("Resultat du lancer");
+			this.panelDes.add(new JPanel());
+			this.panelDes.add(labelResultat);
+			this.panelDes.add(new JPanel());
+			this.panelDes.add(new JLabel("Nombre de des"));
+			this.panelDes.add(new JPanel());
+			this.panelDes.add(new JLabel("Nombre de face"));
+			this.panelDes.add(new JPanel());
+			this.panelDes.add(new JLabel("Additionneur"));  // on ajoute la possibilite d'avoir un additionneur
+			this.panelDes.add(new JPanel());
+			this.panelDes.add(new JLabel("Mutiplicateur")); // idem avec multiplicateur
+			
+			JTextArea texteNombreDes = new JTextArea(1,3);
 			JTextArea texteNombreFace = new JTextArea(1,3);
-			this.panelDés.add(texteNombreDés);
-			this.panelDés.add(new JPanel());
-			this.panelDés.add(texteNombreFace);
-			this.panelDés.add(new JPanel());
-			JButton buttonLancer = new JButton("Lancer");
-			buttonLancer.addActionListener(new ActionListener() {
+			JTextArea texteMultiplicateur = new JTextArea(1,3); // espace de texte pour additionneur
+			JTextArea texteAdditionneur = new JTextArea(1,3); // espace de texte pour multiplicateur
+			this.panelDes.add(texteNombreDes);
+			this.panelDes.add(new JPanel());
+			this.panelDes.add(texteNombreFace);
+			this.panelDes.add(new JPanel());
+			this.panelDes.add(texteMultiplicateur);
+			this.panelDes.add(new JPanel());
+			this.panelDes.add(texteAdditionneur);
+			this.panelDes.add(new JPanel());
+			JButton buttonLancerOnAll = new JButton("Lancer avec effet sur resultat final"); // un bouton oe modif s'appliquent au resultat final
+			buttonLancerOnAll.addActionListener(new ActionListener() {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					if(!(texteNombreDés.getText().equals("")) && !(texteNombreFace.getText().equals(""))) { //on vérifie que les champs e sont pas null
+					
+					// additionneur mais pas multiplicateur
+					if(!(texteNombreDes.getText().equals("")) && !(texteNombreFace.getText().equals("")) && !(texteMultiplicateur.getText().equals("")) && (texteAdditionneur.getText().equals(""))) { //on verifie que les champs ne sont pas null
 					try {
-					int nombreDés = Integer.parseInt(texteNombreDés.getText());
+					int nombreDes = Integer.parseInt(texteNombreDes.getText());
 					int nombreFace = Integer.parseInt(texteNombreFace.getText());
-					Jet jet = new Jet(nombreDés, nombreFace);
-					labelRésultat.setText(Integer.toString(jet.getSomme()));
+					int multiplicateur = Integer.parseInt(texteMultiplicateur.getText());
+					Jet jet = new Jet(nombreDes, nombreFace, 0, multiplicateur, false); // on appelle contructeur sans additionneur et avec multiplicateur 
+					labelResultat.setText(Integer.toString(jet.getSomme())+"( "+jet.getJets().toString()+" )"); // on ajoute affichage de la valeur de chaque jet
 						}
 					catch(Exception e) {
-						System.out.println("Veuillez entrer deux entiers dans les champs ");
+						System.out.println("Veuillez entrer des entiers dans les champs ");
 					}
 					}
+					
+					// multiplicateur mais pas additionneur
+					if(!(texteNombreDes.getText().equals("")) && !(texteNombreFace.getText().equals("")) && (texteMultiplicateur.getText().equals("")) && !(texteAdditionneur.getText().equals(""))) { //on verifie que les champs ne sont pas null
+						try {
+						int nombreDes = Integer.parseInt(texteNombreDes.getText());
+						int nombreFace = Integer.parseInt(texteNombreFace.getText());
+						int additionneur = Integer.parseInt(texteAdditionneur.getText());
+						Jet jet = new Jet(nombreDes, nombreFace, additionneur, 0, false); // on appelle contructeur sans multplieur et avec additionneur
+						labelResultat.setText(Integer.toString(jet.getSomme())+"( "+jet.getJets().toString()+" )");
+							}
+						catch(Exception e) {
+							System.out.println("Veuillez entrer des entiers dans les champs ");
+						}
+						}
+					
+					// ni additionneur ni multiplicateur
+					if(!(texteNombreDes.getText().equals("")) && !(texteNombreFace.getText().equals("")) && !(texteMultiplicateur.getText().equals("")) && !(texteAdditionneur.getText().equals(""))) { //on verifie que les champs ne sont pas null
+						try {
+						int nombreDes = Integer.parseInt(texteNombreDes.getText());
+						int nombreFace = Integer.parseInt(texteNombreFace.getText());
+						Jet jet = new Jet(nombreDes, nombreFace); // on appelle constructeur sans modifications
+						labelResultat.setText(Integer.toString(jet.getSomme())+"( "+jet.getJets().toString()+" )");
+							}
+						catch(Exception e) {
+							System.out.println("Veuillez entrer des entiers dans les champs ");
+						}
+						}
 				}
 				
 			});
-			this.panelDés.add(buttonLancer);
-			this.panelDés.add(new JPanel());
+			this.panelDes.add(buttonLancerOnAll);
+			this.panelDes.add(new JPanel());
+			
+			
+			JButton buttonLancerOnEach = new JButton("Lancer avec effet sur chaque jet"); // bouton pour lequel les effets s'appliquent sur chaque jet
+			buttonLancerOnEach.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					
+					// additionneur mais pas multiplicateur
+					if(!(texteNombreDes.getText().equals("")) && !(texteNombreFace.getText().equals("")) && !(texteMultiplicateur.getText().equals("")) && (texteAdditionneur.getText().equals(""))) { //on verifie que les champs ne sont pas null
+					try {
+					int nombreDes = Integer.parseInt(texteNombreDes.getText());
+					int nombreFace = Integer.parseInt(texteNombreFace.getText());
+					int multiplicateur = Integer.parseInt(texteMultiplicateur.getText());
+					Jet jet = new Jet(nombreDes, nombreFace, 0, multiplicateur,true);
+					labelResultat.setText(Integer.toString(jet.getSomme())+"( "+jet.getJets().toString()+" )");
+						}
+					catch(Exception e) {
+						System.out.println("Veuillez entrer des entiers dans les champs ");
+					}
+					}
+					
+					// multiplicateur mais pas additionneur
+					if(!(texteNombreDes.getText().equals("")) && !(texteNombreFace.getText().equals("")) && (texteMultiplicateur.getText().equals("")) && !(texteAdditionneur.getText().equals(""))) { //on verifie que les champs ne sont pas null
+						try {
+						int nombreDes = Integer.parseInt(texteNombreDes.getText());
+						int nombreFace = Integer.parseInt(texteNombreFace.getText());
+						int additionneur = Integer.parseInt(texteAdditionneur.getText());
+						Jet jet = new Jet(nombreDes, nombreFace, additionneur, 0,true);
+						labelResultat.setText(Integer.toString(jet.getSomme())+"( "+jet.getJets().toString()+" )");
+							}
+						catch(Exception e) {
+							System.out.println("Veuillez entrer des entiers dans les champs ");
+						}
+						}
+					
+					// ni additionneur ni multiplicateur
+					if(!(texteNombreDes.getText().equals("")) && !(texteNombreFace.getText().equals("")) && !(texteMultiplicateur.getText().equals("")) && !(texteAdditionneur.getText().equals(""))) { //on verifie que les champs ne sont pas null
+						try {
+						int nombreDes = Integer.parseInt(texteNombreDes.getText());
+						int nombreFace = Integer.parseInt(texteNombreFace.getText());
+						Jet jet = new Jet(nombreDes, nombreFace);
+						labelResultat.setText(Integer.toString(jet.getSomme())+"( "+jet.getJets().toString()+" )");
+							}
+						catch(Exception e) {
+							System.out.println("Veuillez entrer des entiers dans les champs ");
+						}
+						}
+					
+					// additionneur et multiplicateur (d'abord multiplication puis addition)
+					if(!(texteNombreDes.getText().equals("")) && !(texteNombreFace.getText().equals("")) && (texteMultiplicateur.getText().equals("")) && (texteAdditionneur.getText().equals(""))) { //on verifie que les champs ne sont pas null
+						try {
+						int nombreDes = Integer.parseInt(texteNombreDes.getText());
+						int nombreFace = Integer.parseInt(texteNombreFace.getText());
+						int additionneur = Integer.parseInt(texteAdditionneur.getText());
+						int multiplicateur = Integer.parseInt(texteMultiplicateur.getText());
+						Jet jet = new Jet(nombreDes, nombreFace, additionneur, multiplicateur,true);
+						labelResultat.setText(Integer.toString(jet.getSomme())+"( "+jet.getJets().toString()+" )");
+							}
+						catch(Exception e) {
+							System.out.println("Veuillez entrer des entiers dans les champs ");
+						}
+						}
+				}
+				
+			});
+			this.panelDes.add(buttonLancerOnEach);
+			this.panelDes.add(new JPanel());
+			
+			
 			
 			//Ajout des panels
 			this.fenetre.add(panelListe, BorderLayout.WEST);
 			this.fenetre.add(this.panelAffichage,BorderLayout.CENTER);
 			
-			this.fenetre.add(this.panelDés,BorderLayout.SOUTH);
+			this.fenetre.add(this.panelDes,BorderLayout.SOUTH);
 			
 			//Ajout du menu
 			this.menuBar.add(this.menuFiche);
@@ -242,7 +353,7 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 		
 		protected void ajouterFichePerso() {
 			Fiche nouvelleFiche = this.scenario.ajouterFiche("Personnage");
-			this.modelFiche.addElement(nouvelleFiche); //ajoute la fiche au modï¿½le pour rafraichir la liste des fiches
+			this.modelFiche.addElement(nouvelleFiche); //ajoute la fiche au modele pour rafraichir la liste des fiches
 			
 		}
 		
@@ -255,15 +366,15 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 
 		/**Action de clique sur les fiches**/
 		protected void ficheMousePressed(MouseEvent e) {
-			JList liste = (JList)e.getSource(); //on rï¿½cupï¿½re la liste
-			int rang = liste.locationToIndex(e.getPoint());//on rï¿½cupï¿½re le rang de la fiche sï¿½lectionnï¿½e
+			JList liste = (JList)e.getSource(); //on recupere la liste
+			int rang = liste.locationToIndex(e.getPoint());//on recupere le rang de la fiche selectionnee
 			liste.setSelectedIndex(rang);
-			int buttonDown = e.getButton(); //le bouton pressï¿½
+			int buttonDown = e.getButton(); //le bouton presse
 			if (buttonDown == MouseEvent.BUTTON3) { //le clique droit
 				JPopupMenu menu = new JPopupMenu();
 				JMenuItem itemRenommer = new JMenuItem("renommer");
 				JMenuItem itemSupprimer = new JMenuItem("supprimer");
-				//actions associï¿½es
+				//actions associees
 				itemSupprimer.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent ev) {
@@ -330,7 +441,7 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 			
 		}
 		
-		/**Met a jour la fiche ï¿½ afficher**/
+		/**Met a jour la fiche e afficher**/
 		private void miseAJourAffichage() {
 			this.grilleAffichage = new JPanel();
 			this.grilleAffichage.setLayout(new BoxLayout(this.grilleAffichage, BoxLayout.PAGE_AXIS));
@@ -384,7 +495,7 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 		}
 		
 		/**
-		 * Sauvegarde la fiche selectionï¿½e 
+		 * Sauvegarde la fiche selectionee 
 		 */
 		private void sauvegarder() {
 			for (JPanelAttribut panel : this.listeChamp) {
