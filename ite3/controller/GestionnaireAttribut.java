@@ -22,4 +22,8 @@ public class GestionnaireAttribut<T> {
 		this.attribut.setValeur(valeur);
 	}
 	
+	public void setNomAttribut(String nom) {
+		this.attribut.setNom(nom);
+	}
+	
 }

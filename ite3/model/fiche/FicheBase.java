@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 
+import model.fiche.attribut.Attribut;
+
 /**
  * Classe de base des fiches des jeux
  * @author E12
@@ -43,6 +45,10 @@ public class FicheBase implements Fiche {
 	
 	public int getNombreCategories() {
 		return this.categories.size();
+	}
+	
+	public String getNomFiche() {
+		return this.nomFiche;
 	}
 	
 	public void setNomFiche(String nom) {

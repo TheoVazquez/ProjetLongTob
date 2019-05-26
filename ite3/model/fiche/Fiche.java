@@ -44,5 +44,11 @@ public interface Fiche {
 	 * permet de renommer une fiche
 	 */
 	void setNomFiche(String nom);
+	
+	/**
+	 * retourne le nom de la fiche
+	 * @return le nom de la fiche
+	 */
+	String getNomFiche();
 
 }

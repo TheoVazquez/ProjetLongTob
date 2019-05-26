@@ -20,5 +20,17 @@ public class JPanelAttributInteger extends JPanelAttribut {
 	public void enregistrer() {
 		this.gestionnaire.setValeurAttribut(Integer.valueOf(this.entree.getText()));
 	}
+	
+	@Override
+	public String externalSave() {
+		return "NI"+gestionnaire.getNomAttribut()+"#"+gestionnaire.getValeurAttribut().toString();
+		
+	}
+	
+	@Override
+	public void charger(String nom, String valeur) {
+		gestionnaire.setNomAttribut(nom);
+		gestionnaire.setValeurAttribut(Integer.valueOf(valeur));		
+	}
 
 }

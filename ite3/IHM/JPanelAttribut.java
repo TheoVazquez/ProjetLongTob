@@ -22,4 +22,9 @@ public abstract class JPanelAttribut extends JPanel {
 	
 	public abstract void enregistrer();
 	
+	public abstract String externalSave();
+	
+	public abstract void charger(String nom, String valeur);
+
+	
 }

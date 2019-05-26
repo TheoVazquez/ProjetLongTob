@@ -9,6 +9,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -46,7 +52,11 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 		private JMenuBar menuBar;
 		private JMenu menuFiche;
 		private JButton bEnregistrer; 
+		private JButton bSaveExterne;
+		private JButton bChargerFiche;
 		private ActionListener actionEnregistrer;
+		private ActionListener actionSaveExterne;
+		private ActionListener actionCharger;
 		private ArrayList<JPanelAttribut> listeChamp; //La liste des champs modifiables
 		private JButton bNouvelAttribut;	
 		private ActionListener actionNouvelAttribut;
@@ -63,7 +73,7 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 
 			//Fenetre principal
 			this.fenetre = new JFrame("Assistant de Jeu de Role ");
-			this.fenetre.setLayout(new BorderLayout(30,15));
+			this.fenetre.setLayout(new BorderLayout(30,30));
 			
 			
 			//Creation de la barre de menu
@@ -72,12 +82,18 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 			//Creation des boutons
 			this.bEnregistrer = new JButton("Enregistrer");
 			this.bNouvelAttribut = new JButton("Ajouter un attribut");
+			this.bSaveExterne = new JButton("Sauvegarde externe");
+			this.bChargerFiche = new JButton("Charger fiche");
 
 			//ActionListener
 			this.actionEnregistrer = new ActionEnregistrer();
 			this.bEnregistrer.addActionListener(this.actionEnregistrer);
 			this.actionNouvelAttribut = new ActionNouvelAttribut();
 			this.bNouvelAttribut.addActionListener(this.actionNouvelAttribut);
+			this.actionSaveExterne = new ActionSaveExterne();
+			this.bSaveExterne.addActionListener(this.actionSaveExterne);
+			this.actionCharger = new ActionCharger();
+			this.bChargerFiche.addActionListener(this.actionCharger);
 			
 			//Menu des fiches
 			this.menuFiche = new JMenu("Fiche");
@@ -475,6 +491,8 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 			JPanel panelBouton = new JPanel(new FlowLayout());
 			panelBouton.add(this.bEnregistrer);
 			panelBouton.add(this.bNouvelAttribut);
+			panelBouton.add(this.bSaveExterne);
+			panelBouton.add(this.bChargerFiche);
 			
 			this.panelAffichage.add(panelBouton,BorderLayout.SOUTH);
 			this.fenetre.add(this.panelAffichage,BorderLayout.CENTER);
@@ -516,7 +534,75 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 			for (JPanelAttribut panel : this.listeChamp) {
 				panel.enregistrer();
 			}
-		}		
+		}
+		
+		/**
+		 * sauvegarde de la fiche en externe (dans un fichier texte)
+		 */
+		private void sauvegardeExterne() {
+			try{
+				File ff=new File(""+ficheSelectionnee.getNomFiche()+".txt");
+				ff.createNewFile();
+				FileWriter ffw=new FileWriter(ff);
+				for (JPanelAttribut panel : this.listeChamp) {
+					ffw.write(panel.externalSave());
+					ffw.write("\n");
+				}
+				ffw.close();
+				} catch (Exception e) {
+					System.out.print("fichier non ouvert");
+				}
+		}
+		
+		/**
+		 * chargement de la fiche séléctionnée
+		 */
+		private void chargerFiche() {
+			try{
+				InputStream flux=new FileInputStream("1.txt"); 
+				InputStreamReader lecture=new InputStreamReader(flux);
+				BufferedReader buff=new BufferedReader(lecture);
+				String ligne;
+				String indice;
+				String nom;
+				while ((ligne=buff.readLine())!=null){
+					indice = ligne.substring(0,2);
+					if (indice.equals("NS")) {
+						String[] parts = ligne.substring(2).split("#");
+						String part1 = parts[0];
+						String part2 = parts[1];
+						nom = part1;
+						//
+						//
+						// à compléter
+						//
+						//
+					
+					} else if (indice.contentEquals("NI")) {
+						String[] parts = ligne.substring(2).split("#");
+						String part1 = parts[0];
+						String part2 = parts[1];
+						nom = part1;
+						//
+						//
+						// à compléter
+						//
+						//							
+					} else {
+						//
+						//
+						// à compléter
+						//
+						//
+					}
+					System.out.println(ligne);
+				}
+				buff.close(); 
+				}		
+				catch (Exception e){
+				System.out.println(e.toString());
+				}
+		}
 
 		private void ajouterAttribut() {
 			this.fenetreNouvelAttribut = new JFrame("ajouter attribut");
@@ -551,6 +637,22 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 				
 			}
 			
+		}
+		
+		public class ActionSaveExterne implements ActionListener {
+			//Quand j'appuie sur le bouton sauvegarde externe
+			@Override
+			public void actionPerformed(ActionEvent ev) {
+				sauvegardeExterne();
+			}
+		}
+		
+		public class ActionCharger implements ActionListener {
+			// Quand j'appuie sur le bouton charger fiche
+			@Override
+			public void actionPerformed(ActionEvent ev) {
+				chargerFiche();
+			}
 		}
 
 		private class ActionNouvelAttribut implements ActionListener{
