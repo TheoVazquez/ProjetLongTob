@@ -62,7 +62,28 @@ public class FicheBase implements Fiche {
 	 * @param ajout Catégorie à ajouter dans la fiche
 	 */
 	public void ajouterCategorie(Categorie ajout) {
-		this.categories.add(ajout);
+		Categorie copie = new Categorie(ajout.getType());
+		Iterator<Attribut<String>> iterateurString = ajout.iteratorAttributsString();
+		while (iterateurString.hasNext()) {
+			copie.ajouterAttributString(iterateurString.next());
+		}
+		Iterator<Attribut<Integer>> iterateurInteger = ajout.iteratorAttributsInteger();
+		while (iterateurInteger.hasNext()) {
+			copie.ajouterAttributInteger(iterateurInteger.next());
+		}
+		Iterator<Attribut<Float>> iterateurFloat = ajout.iteratorAttributsFloat();
+		while (iterateurFloat.hasNext()) {
+			copie.ajouterAttributFloat(iterateurFloat.next());
+		}
+		Iterator<Attribut<Fiche>> iterateurFiche = ajout.iteratorAttributsFiche();
+		while (iterateurFiche.hasNext()) {
+			copie.ajouterAttributFiche(iterateurFiche.next());
+		}
+		Iterator<Categorie> iterateurCategorie = ajout.iteratorCategories();
+		while (iterateurCategorie.hasNext()) {
+			copie.ajouterCategorie(iterateurCategorie.next());
+		}
+		this.categories.add(copie);
 	}
 	
 	/**
