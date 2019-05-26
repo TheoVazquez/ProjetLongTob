@@ -541,7 +541,7 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 		 */
 		private void sauvegardeExterne() {
 			try{
-				File ff=new File(""+ficheSelectionnee.getNomFiche()+".txt");
+				File ff=new File(ficheSelectionnee.getType()+ficheSelectionnee.getNomFiche()+".txt");
 				ff.createNewFile();
 				FileWriter ffw=new FileWriter(ff);
 				for (JPanelAttribut panel : this.listeChamp) {
@@ -549,6 +549,7 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 					ffw.write("\n");
 				}
 				ffw.close();
+				System.out.println("Sauvegarde dans le fichier"+ficheSelectionnee.getType()+ficheSelectionnee.getNomFiche()+".txt");
 				} catch (Exception e) {
 					System.out.print("fichier non ouvert");
 				}
@@ -559,48 +560,68 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 		 */
 		private void chargerFiche() {
 			try{
-				InputStream flux=new FileInputStream("1.txt"); 
+				InputStream flux=new FileInputStream(ficheSelectionnee.getType()+ficheSelectionnee.getNomFiche()+".txt"); 
 				InputStreamReader lecture=new InputStreamReader(flux);
 				BufferedReader buff=new BufferedReader(lecture);
 				String ligne;
 				String indice;
 				String nom;
+				this.ficheSelectionnee.reinitialiser();
 				while ((ligne=buff.readLine())!=null){
 					indice = ligne.substring(0,2);
-					if (indice.equals("NS")) {
+					switch(indice) {
+					case "NS" :
+						System.out.println("NS"); //Nouvel attribut string
 						String[] parts = ligne.substring(2).split("#");
 						String part1 = parts[0];
-						String part2 = parts[1];
-						nom = part1;
-						//
-						//
-						// à compléter
-						//
-						//
+						String part2;
+						if(parts.length==2) {
+						 part2 = parts[1];
+						}
+						else {
+						 part2 = "";
+						}
+						Iterator<Categorie> iterateur = this.ficheSelectionnee.iteratorCategories();
+						try {
+						iterateur.next().ajouterAttributString(new Attribut<String>(part1,part2));
+						}catch(Exception e) {
+							Categorie categorieAjout = new Categorie(part1);
+							Attribut attributAjout = new Attribut(part1, part2);
+							categorieAjout.ajouterAttributString(attributAjout);
+							this.ficheSelectionnee.getCategories().add(categorieAjout);
+						}
+						break;
+						
+					case "NI" : //Nouvel attribut entier
+						String[] parties = ligne.substring(2).split("#");
+						String partie1 = parties[0];
+						int partie2;
+						if(parties.length==2) {
+							partie2 = Integer.parseInt(parties[1]);
+						}
+						else {
+							partie2 = 0; //par défaut un int
+						}
+						iterateur = this.ficheSelectionnee.iteratorCategories();
+						try {
+						iterateur.next().ajouterAttributInteger(new Attribut<Integer>(partie1,partie2));
+						}catch(Exception e) {
+							Categorie categorieAjout = new Categorie(partie1);
+							Attribut attributAjout = new Attribut(partie1, partie2);
+							categorieAjout.ajouterAttributInteger(attributAjout);
+							this.ficheSelectionnee.getCategories().add(categorieAjout);
+						}
 					
-					} else if (indice.contentEquals("NI")) {
-						String[] parts = ligne.substring(2).split("#");
-						String part1 = parts[0];
-						String part2 = parts[1];
-						nom = part1;
-						//
-						//
-						// à compléter
-						//
-						//							
-					} else {
-						//
-						//
-						// à compléter
-						//
-						//
+					default :
+						break;
 					}
-					System.out.println(ligne);
-				}
+
+					}
 				buff.close(); 
+				miseAJourAffichage();
 				}		
 				catch (Exception e){
-				System.out.println(e.toString());
+				e.printStackTrace();
 				}
 		}
 
@@ -643,6 +664,7 @@ public class AssistantJeuDeRoleIHM extends JPanel {
 			//Quand j'appuie sur le bouton sauvegarde externe
 			@Override
 			public void actionPerformed(ActionEvent ev) {
+				sauvegarder();
 				sauvegardeExterne();
 			}
 		}

@@ -1,5 +1,6 @@
 package model.fiche;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -50,5 +51,15 @@ public interface Fiche {
 	 * @return le nom de la fiche
 	 */
 	String getNomFiche();
+	
+	/**
+	 * 
+	 * @return la liste des catégories
+	 */
+	ArrayList<Categorie> getCategories();
 
+	/**
+	 * réinitialise la liste des attributs
+	 */
+	void reinitialiser();
 }

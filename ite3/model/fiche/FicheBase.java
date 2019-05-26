@@ -111,5 +111,17 @@ public class FicheBase implements Fiche {
 	public String toString() {
 		return "Fiche " + this.type + " : " + this.nomFiche;
 	}
+
+	@Override
+	public ArrayList<Categorie> getCategories() {
+		
+		return this.categories;
+	}
+
+	@Override
+	public void reinitialiser() {
+		this.categories = new ArrayList<Categorie>();
+		
+	}
 	
 }
