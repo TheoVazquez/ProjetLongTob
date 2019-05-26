@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 
+import model.fiche.attribut.Attribut;
+
 /**
  * Classe de base des fiches des jeux
  * @author E12
